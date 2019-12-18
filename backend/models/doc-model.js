@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const tokenSchema = new mongoose.Schema({
 		'type': {type: String, trim: true, required: true, default: 'totp'},
 		'name': {type: String, trim: true, default: ''},
-		'issuer': {type: String, trim: true, required: true, default: 'unknown'},
+		'issuer': {type: String, trim: true, required: true, default: 'Unknown'},
 		'algo': {type: String, trim: true, required: true, default: 'SHA1'},
 		'digits': {type: Number, trim: true, required: true, default: 6},
 		'period': {type: Number, trim: true, required: true, default: 30},
-		'secret': {type: String, trim: true, required: true}
+		'secret': {
+			"text": {type: String, required: true},
+			"iv": {type: String, required: true}
+		}
 	},
 	{
 		timestamps: true
@@ -20,7 +23,10 @@ tokenSchema.pre('validate', function (next) {
 		this.type = 'totp';
 	}
 	if (this.issuer === null || this.issuer === '') {
-		this.issuer = 'unknown';
+		this.issuer = 'Unknown';
+	}
+	if (this.label === null) {
+		this.label = '';
 	}
 	if (this.algo === null || this.algo === '') {
 		this.algo = 'SHA1';

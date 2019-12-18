@@ -16,6 +16,7 @@ const API = axios.create({
 
 function List() {
 	const Jwt = useContext(JwtContext);
+	const cryptoKey = localStorage.getItem('cryptoKey');
 
 	const [tokens, setTokens] = useState([]);
 	const [redirect, setRedirect] = useState(null);
@@ -66,7 +67,8 @@ function List() {
 				</div>
 
 				<ul className='tokenList'>
-					{tokens.map(t => <li key={t._id}><Token token={t} complete={() => toastControl()}/></li>)}
+					{tokens.map(t =>
+						<li key={t._id}><Token token={t} cryptoKey={cryptoKey} complete={() =>toastControl()}/></li>)}
 				</ul>
 
 				<EntryBtn/>

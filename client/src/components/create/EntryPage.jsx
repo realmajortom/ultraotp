@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import QrReader from 'react-qr-reader';
 import OTPAuth from 'otpauth';
 
+import encrypt from '../../crypto/encrypt';
+
 import API from '../../helpers/data-api';
 import Alert from '../generic/Alert';
 import Form from './Form';
@@ -29,20 +31,25 @@ function EntryPage() {
 	}, []);
 
 
-	const submit = (e) => {
+	async function submit(e) {
 		e.preventDefault();
 		if (!secret) {
 			setMessage('No secret provided. Operation not performed.');
 		} else {
-			API.post('/new',
-				{
+			const key = JSON.parse(localStorage.getItem('cryptoKey'));
+			const encSecret = await encrypt(key, secret);
+
+			API.post('/new', {
 					'type': type,
 					'name': name,
 					'issuer': issuer,
 					'algo': algo,
 					'digits': digits,
 					'period': period,
-					'secret': secret
+					'secret': {
+						'text': encSecret.text,
+						'iv': encSecret.iv
+					}
 				}).then(res => {
 				if (res.data.success) {
 					setRedirect('list');
@@ -51,7 +58,7 @@ function EntryPage() {
 				}
 			});
 		}
-	};
+	}
 
 
 	const scanError = () => {

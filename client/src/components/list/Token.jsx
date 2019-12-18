@@ -3,8 +3,10 @@ import {Redirect} from 'react-router-dom';
 import OTPAuth from 'otpauth';
 import {Line} from 'rc-progress';
 
+import decrypt from '../../crypto/decrypt'
 
-const genOtp = (t) => {
+
+const genOtp = (t, secret) => {
 	let token;
 
 	if (t.type === 'totp') {
@@ -12,66 +14,79 @@ const genOtp = (t) => {
 			algorithm: t.algo,
 			digits: t.digits,
 			period: t.period,
-			secret: t.secret
+			secret: secret
 		});
 	} else {
 		token = new OTPAuth.HOTP({
 			algorithm: t.algo,
 			digits: t.digits,
 			counter: t.period,
-			secret: t.secret
+			secret: secret
 		});
 	}
 
-	let otp = token.generate();
-
-	return otp;
+	return token.generate();
 };
 
 
-const totpTimeUsed = (epoch, step) => {
+const getTimeUsed = (epoch, step) => {
 	return Math.floor(epoch / 1000) % step;
 };
 
 
-const timeRemaining = (epoch, step) => {
-	return step - totpTimeUsed(epoch, step);
+const getTimeRemaining = (epoch, step) => {
+	return step - getTimeUsed(epoch, step);
 };
 
 
 
 function Token(props) {
 	const t = props.token;
-	const [code, setCode] = useState(genOtp(t));
-	const [expiration, setExpiration] = useState('');
+	const cryptoKey = JSON.parse(props.cryptoKey);
+	const [code, setCode] = useState(null);
 	const [id, setId] = useState(null);
+	const [secret, setSecret] = useState(null);
+	const [timeRemaining, setTimeRemaining] = useState('');
 
 
 	useEffect(() => {
-		if (t.type === 'totp') {
-			let expSecs = timeRemaining(Date.now(), t.period);
-			setExpiration(expSecs);
+		async function getSecret() {
+			const decSecret = await decrypt(cryptoKey, t.secret.text, t.secret.iv);
+			setSecret(decSecret);
+		}
+		getSecret();
+	},[cryptoKey, t]);
 
-			let newCode;
+
+	useEffect( () => {
+		if (secret) {
+			setCode(genOtp(t, secret));
+		}
+
+		if (t.type === 'totp' && secret) {
+			let secondsRemaining = getTimeRemaining(Date.now(), t.period);
+			setTimeRemaining(secondsRemaining);
 
 			var updateInterval = setInterval(() => {
-				if (expSecs === 1) {
-					expSecs = t.period;
-					newCode = genOtp(t);
-					setCode(newCode);
+				if (secondsRemaining === 1) {
+					secondsRemaining = t.period;
+					setCode(genOtp(t, secret));
 				} else {
-					expSecs -= 1;
+					secondsRemaining -= 1;
 				}
-				setExpiration(expSecs);
+				setTimeRemaining(secondsRemaining);
 			}, 1000);
-		} else {
-			setExpiration(null);
+		}
+
+		if (t.type !== 'totp' && secret) {
+			setTimeRemaining(null);
 		}
 
 		return function cleanup() {
 			clearInterval(updateInterval);
 		};
-	}, [t]);
+
+	}, [secret, t]);
 
 
 	const copy = () => {
@@ -93,10 +108,10 @@ function Token(props) {
 				<div className='tokenCode'>
 					<h2>{code}</h2>
 
-					{expiration &&
+					{timeRemaining &&
 					<div className='lineContainer'>
 						<Line
-							percent={(expiration / t.period) * 100}
+							percent={(timeRemaining / t.period) * 100}
 							strokeWidth={1}
 							strokeColor='rgba(50, 232, 117, 0.4)'
 							trailWidth={1}

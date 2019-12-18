@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom';
 import JwtContext from '../../App';
 import API from '../../helpers/user-api';
 import Alert from '../generic/Alert';
+import exportKey from '../../crypto/export-key';
 
 
 function Register(props) {
@@ -19,11 +20,16 @@ function Register(props) {
 		API.post('/register', {
 			username: username,
 			password: password
-		}).then(res => {
+		}).then(async (res) => {
 			if (res.data.success) {
+
+				const key = await exportKey(password);
+				localStorage.setItem('cryptoKey', key);
+
 				localStorage.setItem('JWT', res.data.JWT);
 				props.setJwt(res.data.JWT);
 				setSuccess(true);
+
 			} else if (res.data.info) {
 				let newMessage = res.data.info.u.message + '\n' + res.data.info.p.message;
 				setMessage(newMessage);
