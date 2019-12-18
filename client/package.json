@@ -1,7 +1,13 @@
 {
-	"name": "ultra-otp client",
+	"name": "ultraotp-client",
 	"version": "1.0.0",
 	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tggir1/ultraotp.git"
+	},
+	"author": "Thomas Girgenti <thomas@thomasg.dev> (https://thomasg.dev)",
+	"license": "MIT",
 	"dependencies": {
 		"@n8tb1t/use-scroll-position": "^1.0.43",
 		"@testing-library/jest-dom": "^4.2.4",

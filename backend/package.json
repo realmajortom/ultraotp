@@ -1,5 +1,5 @@
 {
-	"name": "ultra-otp backend",
+	"name": "ultraotp-backend",
 	"version": "1.0.0",
 	"description": "ultra-otp backend",
 	"main": "server.js",
@@ -9,14 +9,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/tggir1/cross-fa-firebase.git"
+		"url": "git+https://github.com/tggir1/ultraotp.git"
 	},
 	"author": "Thomas Girgenti <thomas@thomasg.dev> (https://thomasg.dev)",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/tggir1/cross-fa-firebase/issues"
+		"url": "https://github.com/tggir1/ultraotp/issues"
 	},
-	"homepage": "https://github.com/tggir1/cross-fa-firebase#readme",
+	"homepage": "https://github.com/tggir1/ultraotp#readme",
 	"dependencies": {
 		"bcrypt": "^3.0.7",
 		"body-parser": "^1.19.0",
