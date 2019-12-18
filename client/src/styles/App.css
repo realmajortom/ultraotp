@@ -1,0 +1,341 @@
+.Wrapper {
+	min-height: 100vh;
+	width: 100vw;
+}
+
+.App {
+	font-family: 'Manrope', sans-serif;
+	margin: auto;
+	max-width: 700px;
+	padding-top: 4px;
+	width: 94%;
+}
+
+h1, h2 {
+	margin: 0;
+}
+
+h1 {
+	font-weight: 800;
+}
+
+
+/**************** Home ****************/
+.homeHeader {
+	display: flex;
+	justify-content: space-between;
+	margin: auto;
+	width: 100%;
+}
+
+.homeTitles {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+.homeLinksWrapper {
+	margin: 10px 0 0 0;
+}
+
+.linkFlexRight {
+	display: flex;
+}
+
+.btnFlex {
+	margin-right: 10px;
+}
+
+
+/**************** Buttons ****************/
+.primaryBtn {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	/*color: rgba(3, 143, 255, 1.0);*/
+	color: rgb(3, 80, 242);
+	cursor: pointer;
+	display: block;
+	/*font-size: 18px;*/
+	font-size: 1rem;
+	font-weight: 700;
+	padding: 10px 16px;
+	text-align: center;
+	text-decoration: none;
+	transition: all 200ms ease 0ms;
+}
+
+#registerBtn {
+	margin-bottom: 10px;
+}
+
+.primaryBtn:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-color: transparent;
+}
+
+.primaryBtn:active {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logoutBtn {
+	color: rgb(218, 44, 56);
+}
+
+.redirectBtn {
+	margin-top: 10px;
+}
+
+.alertBtn {
+	padding: 10px 30px;
+}
+
+.userBtn {
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+.cancelBtn {
+	color: rgba(0, 0, 0, 0.7);
+}
+
+
+.EntryBtn {
+	/*background: #121212;*/
+	background: #3220f2;
+	border-radius: 28px;
+	bottom: 24px;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.20);
+	height: 56px;
+	overflow: hidden;
+	position: fixed;
+	right: 24px;
+	transition: all 150ms ease-in;
+	user-select: none;
+	width: 56px;
+}
+
+.CircleLink:hover {
+	cursor: pointer;
+}
+
+.CircleLink {
+	align-items: center;
+	background-color: transparent;
+	border: none;
+	display: flex;
+	flex-flow: row nowrap;
+	height: 100%;
+	justify-content: space-around;
+	margin: 0 auto;
+	outline: none;
+	text-decoration: none;
+	user-select: none;
+	width: 100%;
+}
+
+.CircleSpan {
+	color: #ffffff;
+	display: none;
+	font-size: 0;
+	font-size: 18px;
+	font-weight: 500;
+	padding-right: 4px;
+	user-select: none;
+}
+
+.btnExt {
+	width: 130px;
+}
+
+.linkExt {
+	width: 110px;
+}
+
+.spanExt {
+	display: block;
+}
+
+
+/**************** Forms ****************/
+label {
+	display: block;
+	font-size: 11pt;
+}
+
+label span {
+	font-size: 8pt;
+}
+
+.entryForm {
+	align-items: center;
+	display: flex;
+	flex-flow: column nowrap;
+	padding-bottom: 130px;
+}
+
+
+.formGroup {
+	margin-top: 30px;
+	max-width: 414px;
+	width: 100%;
+}
+
+.primaryInput {
+	background-color: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	font-family: 'Manrope', sans-serif;
+	font-size: 11pt;
+	margin-top: 2px;
+	padding: 6px 8px;
+	width: calc(100% - 16px);
+}
+
+.primarySelect {
+	background-color: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	font-family: 'Manrope', sans-serif;
+	font-size: 11pt;
+	height: 30px;
+	margin-top: 4px;
+	padding-left: 10px;
+	width: 90px;
+}
+
+.checkContainer {
+	display: flex;
+	margin-top: 10px;
+}
+
+#passCheck {
+	margin-right: 10px;
+	transform: scale(1.5);
+}
+
+.otpFormWrapper .formGroup {
+	margin-top: 20px;
+}
+
+.advContainer {
+	align-items: center;
+	display: flex;
+	flex-flow: column nowrap;
+	width: 100%;
+}
+
+.advBtn {
+	background-color: transparent;
+	border: none;
+	color: rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	font-family: 'Manrope', sans-serif;
+	font-size: 11pt;
+	font-weight: 600;
+	margin: 0;
+	padding: 10px 20px 10px 0;
+}
+
+.advBtn:hover {
+	color: rgba(0, 0, 0, 0.75);
+}
+
+
+/**************** Token ****************/
+.tokenList {
+	list-style: none;
+	padding: 0 0 80px 0;
+}
+
+.Token {
+	align-items: center;
+	border-radius: 14px;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.20);
+	/*box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.20);*/
+	cursor: pointer;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+
+	margin: 20px auto;
+	max-width: 380px;
+	padding: 10px 10px;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	width: calc(100% - 20px);
+}
+
+.Token:active {
+	background-color: #eeeeee;
+}
+
+.tokenInfo {
+
+}
+
+.tokenInfo p {
+	margin: 0;
+	padding: 0;
+}
+
+.tIssuer {
+	font-size: 1.3rem;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.tLabel {
+	color: rgba(0, 0, 0, 0.6);
+	font-size: .9rem;
+}
+
+
+.tokenCode h2 {
+	font-family: 'B612 Mono', monospace;
+	font-size: 2.25rem;
+	font-weight: 300;
+	letter-spacing: 0.15em;
+	margin: 0 0 0 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+.lineContainer {
+	height: 20px;
+	margin-top: -10px;
+}
+
+
+/**************** Toast ****************/
+.ToastOuter {
+	align-items: center;
+	display: flex;
+	height: 100px;
+	justify-content: center;
+	left: 0;
+	position: fixed;
+	top: 0;
+	transition: all 100ms ease;
+	width: 100vw;
+}
+
+.Toast {
+	align-items: center;
+	background-color: #ffffff;
+	border-radius: 4px;
+	box-shadow: rgba(0, 0, 0, 0.11) 0px 14px 20px 0px;
+	color: #3220f2;
+	display: flex;
+	font-weight: 800;
+	height: 40px;
+	justify-content: center;
+	width: 120px;
+	z-index: 10;
+	/*box-shadow: 0 16px 24px 4px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);*/
+}
