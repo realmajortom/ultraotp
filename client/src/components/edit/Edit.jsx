@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Redirect, useParams} from 'react-router-dom';
+import axios from 'axios';
+
 import Alert from '../generic/Alert';
 import Form from '../create/Form';
-import API from '../../helpers/data-api';
 import decrypt from '../../crypto/decrypt';
 import encrypt from '../../crypto/encrypt';
+
 
 export default function Edit() {
 	const {id} = useParams();
@@ -21,63 +23,85 @@ export default function Edit() {
 	const [algo, setAlgo] = useState('');
 
 
-	async function getSecret(key, text, iv) {
-		const plainSecret = await decrypt(key, text, iv);
-		setSecret(plainSecret);
+	async function setEncryptedItems(key, secret, issuer, name) {
+		const decSecret = await decrypt(key, secret.text, secret.iv);
+		const decIssuer = await decrypt(key, issuer.text, issuer.iv);
+		const decName = await decrypt(key, name.text, name.iv);
+		setSecret(decSecret);
+		setIssuer(decIssuer);
+		setName(decName);
 	}
 
 
 	useEffect(() => {
-		const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
+		if (localStorage.getItem('JWT') && localStorage.getItem('JWT')) {
+			axios.get(`http://192.168.1.111:8080/api/doc/token/${id}`, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+				if (res.data.success) {
+					const t = res.data.token;
+					const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
+					setEncryptedItems(cryptoKey, t.secret, t.issuer, t.name);
 
-		API.get(`/token/${id}`).then(res => {
-			if (res.data.success) {
-				const t = res.data.token;
-				getSecret(cryptoKey, t.secret.text, t.secret.iv);
-
-				setDigits(t.digits);
-				setIssuer(t.issuer);
-				setPeriod(t.period);
-				setType(t.type);
-				setName(t.name);
-				setAlgo(t.algo);
-				setLoaded(true);
-			} else {
-				setMessage(res.data.message);
-			}
-		});
+					setDigits(t.digits);
+					setPeriod(t.period);
+					setType(t.type);
+					setAlgo(t.algo);
+					setLoaded(true);
+				} else {
+					setMessage(res.data.message);
+				}
+			});
+		} else {
+			setCancel(true);
+		}
 	}, [id]);
 
 
 	async function submit(e) {
 		e.preventDefault();
-		const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
-		const encSecret = await encrypt(cryptoKey, secret);
 
-		API.post(`/update/${id}`, {
-			digits: digits,
-			issuer: issuer,
-			period: period,
-			type: type,
-			name: name,
-			algo: algo,
-			secret: {
-				text: encSecret.text,
-				iv: encSecret.iv
-			}
-		}).then(res => {
-			if (res.data.success) {
-				setCancel(true);
-			} else {
-				setMessage(res.data.message);
-			}
-		});
+		if (!secret) {
+			setMessage('No secret provided. Operation not performed.');
+		} else if (!issuer) {
+			setMessage('No issuer provided. Operate not performed.');
+		} else if (!name) {
+			setMessage('No label provided. Operation not performed.');
+		} else {
+			const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
+			const encSecret = await encrypt(cryptoKey, secret);
+			const encIssuer = await encrypt(cryptoKey, issuer);
+			const encName = await encrypt(cryptoKey, name);
+
+			axios.post(`http://192.168.1.111:8080/api/doc/update/${id}`, {
+				digits: digits,
+				period: period,
+				type: type,
+				algo: algo,
+				issuer: {
+					text: encIssuer.text,
+					iv: encIssuer.iv
+				},
+				name: {
+					text: encName.text,
+					iv: encName.iv
+				},
+				secret: {
+					text: encSecret.text,
+					iv: encSecret.iv
+				}
+			},{headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+				if (res.data.success) {
+					setCancel(true);
+				} else {
+					setMessage(res.data.message);
+				}
+			});
+		}
 	}
 
 
 	const deleteToken = () => {
 		if (window.confirm('Are you sure you want to delete this token?')) {
-			API.post(`/delete/${id}`).then(res => {
+			axios.post(`http://192.168.1.111:8080/api/doc/delete/${id}`, null, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
 					setCancel(true);
 				} else {

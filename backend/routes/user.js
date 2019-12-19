@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
 						res.json(genErr);
 					} else {
 
-						User.create({username: req.body.username, password: hash, key: req.body.key}, (err, user) => {
+						User.create({username: req.body.username, password: hash, malt: req.body.malt}, (err, user) => {
 							if (err) {
 								console.log(err);
 								res.json(genErr);
@@ -85,7 +85,7 @@ router.post('/login', (req, res) => {
 					const newJWT = jwt.sign({
 						sub: user._id
 					}, process.env.JWT_SECRET, {expiresIn: '30d'});
-					res.json({success: true, JWT: newJWT});
+					res.json({success: true, JWT: newJWT, malt: user.malt});
 				}
 
 			});

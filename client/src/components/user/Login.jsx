@@ -1,14 +1,13 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import JwtContext from '../../App';
 import API from '../../helpers/user-api';
 import Alert from '../generic/Alert';
-
-import exportKey from '../../crypto/export-key';
+import getDerivedKey from '../../crypto/get-derived-key';
 
 
 function Login(props) {
-	const Jwt = useContext(JwtContext);
+	const Jwt = localStorage.getItem('Jwt');
+	const storedKey = localStorage.getItem('cryptoKey');
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -21,21 +20,18 @@ function Login(props) {
 
 		API.post('/login', {username: username, password: password}).then(async (res) => {
 			if (res.data.success) {
-				const key = await exportKey(password);
-				localStorage.setItem('cryptoKey', key);
-
+				const cryptoKey = await getDerivedKey(password, Uint8Array.from([...res.data.malt].map(ch => ch.charCodeAt())));
+				localStorage.setItem('cryptoKey', JSON.stringify(cryptoKey));
 				localStorage.setItem('JWT', res.data.JWT);
-				props.setJwt(res.data.JWT);
 				setSuccess(true);
-
 			} else {
 				setMessage(res.data.message);
 			}
 		});
-	};
+	}
 
 
-	if (success || Jwt) {
+	if (success || (Jwt && storedKey)) {
 		return <Redirect push to='/list'/>;
 	} else {
 		return (

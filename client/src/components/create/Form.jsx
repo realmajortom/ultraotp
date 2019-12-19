@@ -58,11 +58,11 @@ export default function Form(props) {
 					<div className='checkContainer'>
 						<input
 							type='checkbox'
-							id='passCheck'
-							name='passCheck'
+							id='secCheck'
+							name='secCheck'
 							onChange={() => setSecretVis(!secretVis)}
 						/>
-						<label htmlFor='passCheck'>Show Secret</label>
+						<label htmlFor='secCheck'>Show Secret</label>
 					</div>
 
 				</div>

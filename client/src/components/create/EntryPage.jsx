@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import QrReader from 'react-qr-reader';
 import OTPAuth from 'otpauth';
+import axios from 'axios';
 
 import encrypt from '../../crypto/encrypt';
-
-import API from '../../helpers/data-api';
 import Alert from '../generic/Alert';
 import Form from './Form';
+
 
 function EntryPage() {
 	const [type, setType] = useState('totp');
@@ -25,9 +25,19 @@ function EntryPage() {
 
 
 	useEffect(() => {
-		navigator.mediaDevices.getUserMedia({video: true}).then(() => setCamVis(true)).catch(() => {
-			setCamVis(false);
-		});
+		const Jwt = localStorage.getItem('JWT');
+		const cryptoKey = localStorage.getItem('cryptoKey');
+
+		if (Jwt && cryptoKey) {
+			navigator.mediaDevices.getUserMedia({video: true}).then(() => setCamVis(true)).catch(() => {
+				setCamVis(false);
+			});
+		} else {
+			localStorage.removeItem('JWT');
+			localStorage.removeItem('cryptoKey');
+			setRedirect('/');
+		}
+
 	}, []);
 
 
@@ -35,24 +45,37 @@ function EntryPage() {
 		e.preventDefault();
 		if (!secret) {
 			setMessage('No secret provided. Operation not performed.');
+		} else if (!issuer) {
+			setMessage('No issuer provided. Operate not performed.');
+		} else if (!name) {
+			setMessage('No label provided. Operation not performed.');
 		} else {
 			const key = JSON.parse(localStorage.getItem('cryptoKey'));
 			const encSecret = await encrypt(key, secret);
+			const encIssuer = await encrypt(key, issuer);
+			const encName = await encrypt(key, name);
 
-			API.post('/new', {
-					'type': type,
-					'name': name,
-					'issuer': issuer,
-					'algo': algo,
-					'digits': digits,
-					'period': period,
+			axios.post('http://192.168.1.111:8080/api/doc/new', {
+					'issuer': {
+						'text': encIssuer.text,
+						'iv': encIssuer.iv
+					},
+					'name': {
+						'text': encName.text,
+						'iv': encName.iv
+					},
 					'secret': {
 						'text': encSecret.text,
 						'iv': encSecret.iv
-					}
-				}).then(res => {
+					},
+					'type': type,
+					'algo': algo,
+					'digits': digits,
+					'period': period
+				},
+				{headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
-					setRedirect('list');
+					setRedirect('/list');
 				} else {
 					setMessage(res.data.message);
 				}
@@ -96,7 +119,7 @@ function EntryPage() {
 
 
 	if (redirect) {
-		return <Redirect push to={`/${redirect}`}/>;
+		return <Redirect push to={`${redirect}`}/>;
 	} else {
 
 		return (

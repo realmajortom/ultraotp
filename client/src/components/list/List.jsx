@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,41 +6,34 @@ import EntryBtn from '../create/EntryBtn';
 import Alert from '../generic/Alert';
 import Toast from '../generic/Toast';
 import Token from './Token';
-import JwtContext from '../../App';
-
-const API = axios.create({
-	baseURL: 'http://192.168.1.111:8080/api/doc',
-	headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}
-});
 
 
 function List() {
-	const Jwt = useContext(JwtContext);
-
 	const [tokens, setTokens] = useState([]);
 	const [redirect, setRedirect] = useState(null);
 	const [message, setMessage] = useState('');
 	const [toastVis, setToastVis] = useState(false);
 
 
-	const logout = () => {
-		localStorage.removeItem('JWT');
-		localStorage.removeItem('cryptoKey');
-		setRedirect('/');
-	};
-
-
 	useEffect(() => {
-		if (Jwt !== null) {
-			API.get('/tokens').then(res => {
+		const Jwt = localStorage.getItem('JWT');
+		const cryptoKey = localStorage.getItem('cryptoKey');
+
+		if (Jwt && cryptoKey) {
+			axios.get('http://192.168.1.111:8080/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
 					setTokens(res.data.tokens);
 				} else {
 					setMessage(res.data.message);
 				}
 			});
+		} else {
+			localStorage.removeItem('JWT');
+			localStorage.removeItem('cryptoKey');
+			setRedirect('/');
 		}
-	}, [Jwt]);
+
+	}, []);
 
 
 	useEffect(() => {
@@ -55,6 +48,12 @@ function List() {
 		};
 	}, [toastVis]);
 
+
+	function logout() {
+		localStorage.removeItem('JWT');
+		localStorage.removeItem('cryptoKey');
+		setRedirect('/');
+	}
 
 	if (redirect) {
 		return <Redirect to={redirect}/>;

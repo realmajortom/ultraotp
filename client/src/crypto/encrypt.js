@@ -15,9 +15,7 @@ async function encrypt(jsonWebKey, text) {
 		},
 		key,
 		encodedText
-	).catch(err => {
-		console.log(err)
-	});
+	);
 
 	const cipherStr = String.fromCharCode(...new Uint8Array(cipherText));
 	const ivStr = String.fromCharCode(...new Uint8Array(iv));

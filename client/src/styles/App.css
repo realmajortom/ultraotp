@@ -28,14 +28,9 @@ h1 {
 	width: 100%;
 }
 
-.homeTitles {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-}
-
 .homeLinksWrapper {
 	margin: 10px 0 0 0;
+	display: flex;
 }
 
 .linkFlexRight {
@@ -96,7 +91,8 @@ h1 {
 }
 
 .cancelBtn {
-	color: rgba(0, 0, 0, 0.7);
+	/*color: rgba(0, 0, 0, 0.7);*/
+	color: rgb(80,80,80);
 }
 
 
@@ -137,7 +133,6 @@ h1 {
 .CircleSpan {
 	color: #ffffff;
 	display: none;
-	font-size: 0;
 	font-size: 18px;
 	font-weight: 500;
 	padding-right: 4px;
@@ -161,6 +156,7 @@ h1 {
 label {
 	display: block;
 	font-size: 11pt;
+	font-weight: 500;
 }
 
 label span {
@@ -171,7 +167,12 @@ label span {
 	align-items: center;
 	display: flex;
 	flex-flow: column nowrap;
-	padding-bottom: 130px;
+	padding: 0 15px 30px 15px;
+	background-color: #ffffff;
+	margin-top: 20px;
+	border-radius: 14px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+
 }
 
 
@@ -209,9 +210,13 @@ label span {
 	margin-top: 10px;
 }
 
-#passCheck {
+#passCheck, #secCheck {
 	margin-right: 10px;
 	transform: scale(1.5);
+}
+
+.otpFormWrapper {
+	margin-bottom: 50px;
 }
 
 .otpFormWrapper .formGroup {
@@ -241,6 +246,15 @@ label span {
 	color: rgba(0, 0, 0, 0.75);
 }
 
+#password {
+	margin-bottom: 6px;
+}
+small {
+	font-size: 0.8rem;
+	margin-top: 10px;
+	color: rgb(80,80,80);
+}
+
 
 /**************** Token ****************/
 .tokenList {
@@ -252,6 +266,7 @@ label span {
 	align-items: center;
 	border-radius: 14px;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.20);
+	background-color: #ffffff;
 	/*box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.20);*/
 	cursor: pointer;
 	display: flex;
@@ -263,7 +278,6 @@ label span {
 	padding: 10px 10px;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
-	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	-webkit-user-select: none;
@@ -272,7 +286,8 @@ label span {
 }
 
 .Token:active {
-	background-color: #eeeeee;
+	/*background-color: #eeeeee;*/
+	background-color: #e7f5ec;
 }
 
 .tokenInfo {
@@ -338,4 +353,17 @@ label span {
 	width: 120px;
 	z-index: 10;
 	/*box-shadow: 0 16px 24px 4px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);*/
+}
+
+
+@media (max-width: 500px) {
+	.homeLinksWrapper {
+		flex-direction: column;
+	}
+
+	.btnFlex {
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+
 }

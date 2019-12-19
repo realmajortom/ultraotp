@@ -1,4 +1,4 @@
-const short = 'must contain at least 4 characters.';
+const short = 'must contain at least 12 characters.';
 const long = 'must contain less than 120 characters.';
 
 module.exports = function (username, password) {
@@ -22,7 +22,7 @@ module.exports = function (username, password) {
 		res.u.message = `Username ${long}`;
 	}
 
-	if (password.length < 4) {
+	if (password.length < 12) {
 		res.p.valid = false;
 		res.p.message = `Password ${short}`;
 	} else if (password.length > 120) {

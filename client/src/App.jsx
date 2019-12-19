@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './styles/App.css';
 
@@ -10,21 +10,16 @@ import Home from './components/Home';
 import Edit from './components/edit/Edit';
 
 
-const JwtContext = React.createContext(localStorage.getItem('JWT'));
-
-
 export default function App() {
-  const [Jwt, setJwt] = useState(localStorage.getItem('JWT'));
 
   return (
     <Router>
-      <JwtContext.Provider value={Jwt}>
         <div className='Wrapper'>
           <div className='App'>
 
             <Switch>
-              <Route path='/login'> <Login setJwt={setJwt}/> </Route>
-              <Route path='/register'> <Register setJwt={setJwt}/> </Route>
+              <Route path='/login'> <Login /> </Route>
+              <Route path='/register'> <Register /> </Route>
               <Route path='/new'> <EntryPage/> </Route>
               <Route path='/list'> <List/></Route>
               <Route path='/edit/:id'> <Edit/> </Route>
@@ -33,7 +28,6 @@ export default function App() {
 
           </div>
         </div>
-      </JwtContext.Provider>
     </Router>
   );
 }

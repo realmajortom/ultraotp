@@ -45,19 +45,25 @@ function Token(props) {
 	const [id, setId] = useState(null);
 	const [code, setCode] = useState(null);
 	const [secret, setSecret] = useState(null);
+	const [issuer, setIssuer] = useState(null);
+	const [name, setName] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState('');
 
 
 	useEffect(() => {
 		const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
 
-		async function getSecret() {
+		async function setEncryptedItems() {
 			const decSecret = await decrypt(cryptoKey, t.secret.text, t.secret.iv);
+			const decIssuer = await decrypt(cryptoKey, t.issuer.text, t.issuer.iv);
+			const decName = await decrypt(cryptoKey, t.name.text, t.name.iv);
 			setSecret(decSecret);
+			setIssuer(decIssuer);
+			setName(decName);
 		}
 
-		getSecret();
-	},[t.secret.iv, t.secret.text]);
+		setEncryptedItems();
+	},[t]);
 
 
 	useEffect( () => {
@@ -103,8 +109,8 @@ function Token(props) {
 			<div className='Token' onClick={() => copy()} onDoubleClick={() => setId(t._id)}>
 
 				<div className='tokenInfo'>
-					<p className='tIssuer'>{t.issuer}</p>
-					<p className='tLabel'>{t.name}</p>
+					<p className='tIssuer'>{issuer}</p>
+					<p className='tLabel'>{name}</p>
 				</div>
 
 				<div className='tokenCode'>

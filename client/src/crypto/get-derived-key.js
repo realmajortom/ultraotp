@@ -1,13 +1,12 @@
 
-function getKeyMaterial(password) {
+function getKeyMaterial(plainPassword) {
 	const enc = new TextEncoder();
-
 	return window.crypto.subtle.importKey(
 		"raw",
-		enc.encode(password),
+		enc.encode(plainPassword),
 		{name: "PBKDF2"},
 		false,
-		["deriveKey"]
+		["deriveBits", "deriveKey"]
 	);
 }
 
@@ -28,13 +27,17 @@ function getKey(keyMaterial, salt) {
 }
 
 
-async function deriveKey(password) {
-	let salt = window.crypto.getRandomValues(new Uint8Array(16));
-	let keyMaterial = await getKeyMaterial(password);
+async function getDerivedKey(plainPassword, salt) {
+	let keyMaterial = await getKeyMaterial(plainPassword);
 	let key = await getKey(keyMaterial, salt);
 
-	return key;
+	const exportKey = await window.crypto.subtle.exportKey(
+		"jwk",
+		key
+	);
+
+	return exportKey;
 }
 
 
-export default deriveKey;
+export default getDerivedKey;

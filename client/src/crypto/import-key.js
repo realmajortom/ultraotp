@@ -1,5 +1,4 @@
 async function importKey(jsonWebKey) {
-
 	const key = window.crypto.subtle.importKey(
 		'jwk',
 		jsonWebKey,
@@ -7,7 +6,6 @@ async function importKey(jsonWebKey) {
 		true,
 		['encrypt', 'decrypt']
 	);
-
 	return key;
 }
 
