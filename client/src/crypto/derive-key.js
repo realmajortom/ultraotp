@@ -1,6 +1,4 @@
 
-// Get some key material to use as input to the deriveKey method.
-// The key material is a password supplied by the user.
 function getKeyMaterial(password) {
 	const enc = new TextEncoder();
 
@@ -14,8 +12,6 @@ function getKeyMaterial(password) {
 }
 
 
-// Given some key material and some random salt
-// derive an AES-GCM key using PBKDF2.
 function getKey(keyMaterial, salt) {
 	return window.crypto.subtle.deriveKey(
 		{

@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
 						res.json(genErr);
 					} else {
 
-						User.create({username: req.body.username, password: hash}, (err, user) => {
+						User.create({username: req.body.username, password: hash, key: req.body.key}, (err, user) => {
 							if (err) {
 								console.log(err);
 								res.json(genErr);

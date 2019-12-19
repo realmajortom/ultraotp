@@ -21,7 +21,6 @@ function Login(props) {
 
 		API.post('/login', {username: username, password: password}).then(async (res) => {
 			if (res.data.success) {
-
 				const key = await exportKey(password);
 				localStorage.setItem('cryptoKey', key);
 

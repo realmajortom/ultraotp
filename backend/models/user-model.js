@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
 			maxLength: 120,
 			trim: true,
 			required: true
-		}
+		},
+		key: Object
 		},
 	{
 		collection: 'users',

@@ -16,7 +16,6 @@ const API = axios.create({
 
 function List() {
 	const Jwt = useContext(JwtContext);
-	const cryptoKey = localStorage.getItem('cryptoKey');
 
 	const [tokens, setTokens] = useState([]);
 	const [redirect, setRedirect] = useState(null);
@@ -26,12 +25,13 @@ function List() {
 
 	const logout = () => {
 		localStorage.removeItem('JWT');
+		localStorage.removeItem('cryptoKey');
 		setRedirect('/');
 	};
 
 
 	useEffect(() => {
-		if (!Jwt !== null) {
+		if (Jwt !== null) {
 			API.get('/tokens').then(res => {
 				if (res.data.success) {
 					setTokens(res.data.tokens);
@@ -43,12 +43,17 @@ function List() {
 	}, [Jwt]);
 
 
-	const toastControl = () => {
-		setToastVis(true);
-		setTimeout(() => {
-			setToastVis(false);
-		}, 2000);
-	};
+	useEffect(() => {
+		if (toastVis) {
+			var toastTimeout = setTimeout(() => {
+				setToastVis(false);
+			}, 2000);
+		}
+
+		return function cleanup() {
+			clearTimeout(toastTimeout);
+		};
+	}, [toastVis]);
 
 
 	if (redirect) {
@@ -68,7 +73,7 @@ function List() {
 
 				<ul className='tokenList'>
 					{tokens.map(t =>
-						<li key={t._id}><Token token={t} cryptoKey={cryptoKey} complete={() =>toastControl()}/></li>)}
+						<li key={t._id}><Token token={t} complete={() => setToastVis(true)}/></li>)}
 				</ul>
 
 				<EntryBtn/>

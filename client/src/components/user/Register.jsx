@@ -14,17 +14,19 @@ function Register(props) {
 	const [message, setMessage] = useState('');
 
 
-	const submit = (e) => {
+	async function submit(e){
 		e.preventDefault();
+		let masterKey = await genKey();
+		let wrappingKey = await getWrappingKey(password);
+		let wrappedKey = await getWrappedKey(masterKey, wrappingKey);
 
 		API.post('/register', {
 			username: username,
-			password: password
+			password: password,
+			key: wrappedKey
 		}).then(async (res) => {
 			if (res.data.success) {
-
-				const key = await exportKey(password);
-				localStorage.setItem('cryptoKey', key);
+				localStorage.setItem('cryptoKey', wrappingKey);
 
 				localStorage.setItem('JWT', res.data.JWT);
 				props.setJwt(res.data.JWT);
@@ -33,6 +35,7 @@ function Register(props) {
 			} else if (res.data.info) {
 				let newMessage = res.data.info.u.message + '\n' + res.data.info.p.message;
 				setMessage(newMessage);
+
 			} else {
 				setMessage(res.data.message);
 			}

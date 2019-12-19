@@ -42,20 +42,22 @@ const getTimeRemaining = (epoch, step) => {
 
 function Token(props) {
 	const t = props.token;
-	const cryptoKey = JSON.parse(props.cryptoKey);
-	const [code, setCode] = useState(null);
 	const [id, setId] = useState(null);
+	const [code, setCode] = useState(null);
 	const [secret, setSecret] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState('');
 
 
 	useEffect(() => {
+		const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
+
 		async function getSecret() {
 			const decSecret = await decrypt(cryptoKey, t.secret.text, t.secret.iv);
 			setSecret(decSecret);
 		}
+
 		getSecret();
-	},[cryptoKey, t]);
+	},[t.secret.iv, t.secret.text]);
 
 
 	useEffect( () => {

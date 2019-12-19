@@ -152,6 +152,7 @@ router.post('/update/:id', (req, res) => {
 
 					if (toUpdate) {
 						toUpdate.set(req.body);
+
 						doc.save((err, doc) => {
 							if (err) {
 								console.log(err);
@@ -160,6 +161,7 @@ router.post('/update/:id', (req, res) => {
 								return res.json({success: true});
 							}
 						});
+
 					} else {
 						return res.json({success: false, message: 'Cannot update a non-existent token.'});
 					}
