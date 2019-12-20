@@ -1,11 +1,14 @@
 {
-	"name": "ultraotp-backend",
+	"name": "ultraotp",
 	"version": "1.0.0",
-	"description": "ultra-otp backend",
+	"description": "ultra-otp multi-device otp tool",
 	"main": "server.js",
+	"engines": {
+		"node": "^12.0.0",
+		"npm": "^6.13.4"
+	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon server.js"
+		"start": "node server.js"
 	},
 	"repository": {
 		"type": "git",

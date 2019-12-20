@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import './styles/App.css';
+import './App.css';
 
 import Login from './components/user/Login';
 import Register from './components/user/Register';

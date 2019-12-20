@@ -5,7 +5,7 @@ import EditIcon from './EditIcon';
 import LineContainer from './LineContainer';
 import decrypt from '../../crypto/decrypt';
 import genOtp from '../../helpers/gen-otp';
-import '../../styles/swipeable.css';
+import '../../swipeable.css';
 
 function getTimeRemaining(epoch, step) {
 	return step - (Math.floor(epoch / 1000) % step);
