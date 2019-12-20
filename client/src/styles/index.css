@@ -4,6 +4,12 @@ html, body {
 	background-color: #f6f6f6;
 }
 
+@media(prefers-color-scheme: dark) {
+	html, body {
+		background-color: #121212;
+	}
+}
+
 @font-face {
 	font-family: 'Manrope';
 	font-weight: 200;

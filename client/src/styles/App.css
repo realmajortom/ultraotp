@@ -172,7 +172,6 @@ label span {
 	margin-top: 20px;
 	border-radius: 14px;
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
-
 }
 
 
@@ -272,26 +271,21 @@ small {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
-
-	margin: 20px auto;
-	max-width: 380px;
-	padding: 10px 10px;
+	margin: 8px auto;
+	max-width: 376px;
+	padding: 12px 12px;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
-	width: calc(100% - 20px);
+	width: calc(100% - 24px);
 }
 
 .Token:active {
 	/*background-color: #eeeeee;*/
 	background-color: #e7f5ec;
-}
-
-.tokenInfo {
-
 }
 
 .tokenInfo p {
@@ -300,7 +294,7 @@ small {
 }
 
 .tIssuer {
-	font-size: 1.3rem;
+	font-size: 1.4rem;
 	font-weight: 500;
 	white-space: nowrap;
 }
@@ -312,10 +306,10 @@ small {
 
 
 .tokenCode h2 {
-	font-family: 'B612 Mono', monospace;
-	font-size: 2.25rem;
-	font-weight: 300;
-	letter-spacing: 0.15em;
+	font-family: 'Roboto Mono', monospace;
+	font-size: 2.5rem;
+	font-weight: 500;
+	letter-spacing: 0.1em;
 	margin: 0 0 0 0;
 	padding: 0;
 	white-space: nowrap;
@@ -326,6 +320,25 @@ small {
 	margin-top: -10px;
 }
 
+
+.EditIconWrapper {
+	width: 80px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.EditIconInner {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.20);
+}
 
 /**************** Toast ****************/
 .ToastOuter {
@@ -351,19 +364,71 @@ small {
 	height: 40px;
 	justify-content: center;
 	width: 120px;
-	z-index: 10;
 	/*box-shadow: 0 16px 24px 4px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);*/
 }
 
+.alertBox {
+	background-color: #ffffff;
+}
+
+
+@media(max-width: 400px) {
+	.tIssuer {
+		font-size: 1.2rem;
+	}
+	.tLabel {
+		font-size: .8rem;
+	}
+	.tokenCode h2 {
+		font-size: 2rem;
+	}
+}
 
 @media (max-width: 500px) {
 	.homeLinksWrapper {
 		flex-direction: column;
 	}
-
 	.btnFlex {
 		margin-right: 0;
 		margin-bottom: 10px;
 	}
+}
 
+@media (max-width: 700px) {
+	.tokenList {
+		margin-left: -2%;
+		width: 98vw;
+	}
+	.Token {
+		width: calc(96% - 24px);
+	}
+}
+
+@media(prefers-color-scheme: dark) {
+	.App, h1, h2 {
+		color: #ffffff;
+	}
+	.primaryBtn {
+		background-color: #272727;
+		color: rgb(216, 183, 253);
+	}
+	.cancelBtn {
+		color: #e6e6e6;
+	}
+	.logoutBtn {
+		color: #ff9db1;
+	}
+	.entryForm, .Token, .alertBox {
+		background-color: #222222;
+	}
+	.primaryInput, .primarySelect {
+		border-color: #383838;
+		color: #ffffff;
+	}
+	small, .tLabel, .advBtn, .advBtn:focus {
+		color: #adadad;
+	}
+	.EntryBtn {
+		background:#4c00d1;
+	}
 }
