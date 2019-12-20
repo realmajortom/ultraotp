@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.99c920fa.chunk.css",
+    "main.js": "/static/js/main.b2534ceb.chunk.js",
+    "main.js.map": "/static/js/main.b2534ceb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.72af4ec0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.72af4ec0.js.map",
+    "static/js/2.4cddd379.chunk.js": "/static/js/2.4cddd379.chunk.js",
+    "static/js/2.4cddd379.chunk.js.map": "/static/js/2.4cddd379.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.9d324de41b5ff3b983b3535beb1a7f71.js": "/precache-manifest.9d324de41b5ff3b983b3535beb1a7f71.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.99c920fa.chunk.css.map": "/static/css/main.99c920fa.chunk.css.map",
+    "static/js/2.4cddd379.chunk.js.LICENSE": "/static/js/2.4cddd379.chunk.js.LICENSE",
+    "static/media/index.css": "/static/media/Manrope-SemiBold.46cd7793.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.72af4ec0.js",
+    "static/js/2.4cddd379.chunk.js",
+    "static/css/main.99c920fa.chunk.css",
+    "static/js/main.b2534ceb.chunk.js"
+  ]
+}
