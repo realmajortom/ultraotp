@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import API from '../../helpers/user-api';
+import axios from 'axios';
 import Alert from '../generic/Alert';
 import getDerivedKey from '../../crypto/get-derived-key';
 
@@ -29,7 +29,7 @@ function Register(props) {
 
 			const malt = await window.crypto.getRandomValues(new Uint8Array(16));
 
-			API.post('/register', {
+			axios.post('https://ultraotp.com/register', {
 				username: username,
 				password: password,
 				malt: String.fromCharCode(...new Uint8Array(malt))
@@ -93,7 +93,7 @@ function Register(props) {
 							className='primaryInput'
 							onChange={e => setPassword(e.target.value)}
 						/>
-						<small>The master password is the password you use to access your tokens. It is very important that you do not forget your master password. There is no way to recover the password in the event that you forget it.</small>
+						<small>The master password is used to encrypt and access your tokens. It is critical that you do not forget your master password; there is no way to recover the password in the event that you forget it.</small>
 					</div>
 
 					<div className='formGroup'>

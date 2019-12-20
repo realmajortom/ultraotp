@@ -35,7 +35,7 @@ export default function Edit() {
 
 	useEffect(() => {
 		if (localStorage.getItem('JWT') && localStorage.getItem('JWT')) {
-			axios.get(`http://192.168.1.111:8080/api/doc/token/${id}`, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+			axios.get(`https://ultraotp.com/api/doc/token/${id}`, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
 					const t = res.data.token;
 					const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));
@@ -71,7 +71,7 @@ export default function Edit() {
 			const encIssuer = await encrypt(cryptoKey, issuer);
 			const encName = await encrypt(cryptoKey, name);
 
-			axios.post(`http://192.168.1.111:8080/api/doc/update/${id}`, {
+			axios.post(`https//ultraotp.com/api/doc/update/${id}`, {
 				digits: digits,
 				period: period,
 				type: type,
@@ -101,7 +101,7 @@ export default function Edit() {
 
 	const deleteToken = () => {
 		if (window.confirm('Are you sure you want to delete this token?')) {
-			axios.post(`http://192.168.1.111:8080/api/doc/delete/${id}`, null, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+			axios.post(`https://ultraotp.com/api/doc/delete/${id}`, null, {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
 					setCancel(true);
 				} else {

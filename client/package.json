@@ -8,8 +8,10 @@
 	},
 	"author": "Thomas Girgenti <thomas@thomasg.dev> (https://thomasg.dev)",
 	"license": "MIT",
+	"homepage": "https://ultraotp.com",
 	"dependencies": {
 		"@n8tb1t/use-scroll-position": "^1.0.43",
+		"@sandstreamdev/react-swipeable-list": "^0.3.1",
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.3.3",
 		"@testing-library/user-event": "^7.1.2",

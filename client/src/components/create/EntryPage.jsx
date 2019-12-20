@@ -55,7 +55,7 @@ function EntryPage() {
 			const encIssuer = await encrypt(key, issuer);
 			const encName = await encrypt(key, name);
 
-			axios.post('http://192.168.1.111:8080/api/doc/new', {
+			axios.post('https://ultraotp.com/api/doc/new', {
 					'issuer': {
 						'text': encIssuer.text,
 						'iv': encIssuer.iv

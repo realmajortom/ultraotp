@@ -1,44 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
-import OTPAuth from 'otpauth';
-import {Line} from 'rc-progress';
+import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import EditIcon from './EditIcon';
+import LineContainer from './LineContainer';
+import decrypt from '../../crypto/decrypt';
+import genOtp from '../../helpers/gen-otp';
+import '../../styles/swipeable.css';
 
-import decrypt from '../../crypto/decrypt'
-
-
-const genOtp = (t, secret) => {
-	let token;
-
-	if (t.type === 'totp') {
-		token = new OTPAuth.TOTP({
-			algorithm: t.algo,
-			digits: t.digits,
-			period: t.period,
-			secret: secret
-		});
-	} else {
-		token = new OTPAuth.HOTP({
-			algorithm: t.algo,
-			digits: t.digits,
-			counter: t.period,
-			secret: secret
-		});
-	}
-
-	return token.generate();
-};
-
-
-const getTimeUsed = (epoch, step) => {
-	return Math.floor(epoch / 1000) % step;
-};
-
-
-const getTimeRemaining = (epoch, step) => {
-	return step - getTimeUsed(epoch, step);
-};
-
-
+function getTimeRemaining(epoch, step) {
+	return step - (Math.floor(epoch / 1000) % step);
+}
 
 function Token(props) {
 	const t = props.token;
@@ -97,40 +68,46 @@ function Token(props) {
 	}, [secret, t]);
 
 
-	const copy = () => {
+	const copy = (code) => {
 		navigator.clipboard.writeText(code).then(() => props.complete());
 	};
 
+	const handleSwipe = () => {
+		window.navigator.vibrate([10, 80, 10]);
+		setTimeout(() => {
+			setId(t._id)
+		}, 120);
+	};
 
 	if (id) {
 		return (<Redirect push to={`/edit/${id}`}/>);
-	} else {
+	} else if (secret && issuer && name) {
 		return (
-			<div className='Token' onClick={() => copy()} onDoubleClick={() => setId(t._id)}>
+			<SwipeableList swipeStartThreshold={10} threshold={0.3}>
+				<SwipeableListItem
+					swipeLeft={{
+						content: <EditIcon />,
+						action: () => handleSwipe()
+					}}
+				>
+				<div className='Token' onClick={() => copy(code)}>
 
-				<div className='tokenInfo'>
-					<p className='tIssuer'>{issuer}</p>
-					<p className='tLabel'>{name}</p>
-				</div>
-
-				<div className='tokenCode'>
-					<h2>{code}</h2>
-
-					{timeRemaining &&
-					<div className='lineContainer'>
-						<Line
-							percent={(timeRemaining / t.period) * 100}
-							strokeWidth={1}
-							strokeColor='rgba(50, 232, 117, 0.4)'
-							trailWidth={1}
-							trailColor='#eeeeee'
-						/>
+					<div className='tokenInfo'>
+						<p className='tIssuer'>{issuer}</p>
+						<p className='tLabel'>{name}</p>
 					</div>
-					}
-				</div>
 
-			</div>
+					<div className='tokenCode'>
+						<h2>{code}</h2>
+						{timeRemaining && <LineContainer timeRemaining={timeRemaining} period={t.period} />}
+					</div>
+
+				</div>
+				</SwipeableListItem>
+			</SwipeableList>
 		);
+	} else {
+		return <div></div>
 	}
 }
 

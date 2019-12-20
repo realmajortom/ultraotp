@@ -16,7 +16,7 @@
 	"bugs": {
 		"url": "https://github.com/tggir1/ultraotp/issues"
 	},
-	"homepage": "https://github.com/tggir1/ultraotp#readme",
+	"homepage": "https://ultraotp.com",
 	"dependencies": {
 		"bcrypt": "^3.0.7",
 		"body-parser": "^1.19.0",

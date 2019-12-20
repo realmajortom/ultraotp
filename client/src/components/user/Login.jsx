@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import API from '../../helpers/user-api';
+import axios from 'axios';
 import Alert from '../generic/Alert';
 import getDerivedKey from '../../crypto/get-derived-key';
 
@@ -18,7 +18,7 @@ function Login(props) {
 	function submit(e) {
 		e.preventDefault();
 
-		API.post('/login', {username: username, password: password}).then(async (res) => {
+		axios.post('https://ultraotp.com/login', {username: username, password: password}).then(async (res) => {
 			if (res.data.success) {
 				const cryptoKey = await getDerivedKey(password, Uint8Array.from([...res.data.malt].map(ch => ch.charCodeAt())));
 				localStorage.setItem('cryptoKey', JSON.stringify(cryptoKey));

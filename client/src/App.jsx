@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './styles/App.css';
 
@@ -11,6 +11,12 @@ import Edit from './components/edit/Edit';
 
 
 export default function App() {
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.querySelector("meta[name=theme-color]").setAttribute('content', '#121212');
+    }
+  }, []);
 
   return (
     <Router>

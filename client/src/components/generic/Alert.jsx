@@ -28,7 +28,6 @@ const messageStyle = {
 	width: 'calc(96% - 40px)',
 	maxWidth: '460px',
 	padding: '10px 20px',
-	backgroundColor: '#ffffff',
 	borderRadius: '10px',
 	boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
 };
@@ -48,7 +47,7 @@ const Alert = (props) => {
 			<div style={backdropStyle}></div>
 
 			<div style={messageWrapperStyle}>
-				<div style={messageStyle}>
+				<div style={messageStyle} className='alertBox'>
 					<h2>Message</h2>
 					<p>{message}</p>
 					<div style={btnWrapper}>

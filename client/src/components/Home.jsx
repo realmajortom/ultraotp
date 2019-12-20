@@ -15,7 +15,7 @@ function Home() {
 				<div className='homeHeader'>
 
 					<div className='homeTitles'>
-						<h1>CrossFA</h1>
+						<h1>Ultra OTP</h1>
 					</div>
 
 					<nav className='homeLinksWrapper'>
@@ -25,7 +25,7 @@ function Home() {
 
 				</div>
 
-				<h2>Multi-device 2FA tool</h2>
+				{/*<h2>Multi-device 2FA tool</h2>*/}
 
 			</div>
 		);

@@ -20,7 +20,7 @@ function List() {
 		const cryptoKey = localStorage.getItem('cryptoKey');
 
 		if (Jwt && cryptoKey) {
-			axios.get('http://192.168.1.111:8080/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+			axios.get('https://ultraotp.com/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 				if (res.data.success) {
 					setTokens(res.data.tokens);
 				} else {
