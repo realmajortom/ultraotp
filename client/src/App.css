@@ -281,6 +281,7 @@ small {
 	-webkit-user-select: none;
 	user-select: none;
 	width: calc(100% - 24px);
+	transition: background-color 150ms ease-out;
 }
 
 .Token:active {
@@ -371,6 +372,13 @@ small {
 	background-color: #ffffff;
 }
 
+.camWrapper {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	margin-top: 40px;
+}
+
 
 @media(max-width: 400px) {
 	.tIssuer {
@@ -409,8 +417,9 @@ small {
 		color: #ffffff;
 	}
 	.primaryBtn {
-		background-color: #272727;
-		color: rgb(216, 183, 253);
+		background-color: #3c4043;
+		/*color: rgb(216, 183, 253);*/
+		color: #50b5ff;
 	}
 	.cancelBtn {
 		color: #e6e6e6;
@@ -429,6 +438,9 @@ small {
 		color: #adadad;
 	}
 	.EntryBtn {
-		background:#4c00d1;
+		background:#4971b7;
+	}
+	.Token:active {
+		background-color: #3e5644;
 	}
 }

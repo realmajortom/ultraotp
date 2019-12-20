@@ -137,8 +137,7 @@ function EntryPage() {
 
 
 				{camVis &&
-				<div className='camWrapper'
-						 style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', marginTop: '40px'}}>
+				<div className='camWrapper'>
 
 					<QrReader
 						delay={500}
@@ -151,7 +150,8 @@ function EntryPage() {
 
 					<p>{camSubtitle}</p>
 
-				</div>}
+				</div>
+				}
 
 
 				<div className='otpFormWrapper' style={camVis === false ? {display: 'block'} : {display: 'none'}}>

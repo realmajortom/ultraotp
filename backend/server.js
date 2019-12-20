@@ -60,23 +60,19 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 
-const userLimiter = rateLimit({
+const apiLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
-	max: 10
-});
-
-const docLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 60m
-	max: 100
+	max: 180,
+	message: 'Too many API requests, please try again later.'
 });
 
 const genLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
-	max: 200
+	max: 60,
+	message: 'Too many requests, please try again later.'
 });
 
-app.use('/api/user', userLimiter);
-app.use('/api/doc', docLimiter);
+app.use('/api/', apiLimiter);
 app.use('/*', genLimiter);
 
 

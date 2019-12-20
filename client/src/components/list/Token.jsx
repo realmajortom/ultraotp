@@ -7,18 +7,20 @@ import decrypt from '../../crypto/decrypt';
 import genOtp from '../../helpers/gen-otp';
 import '../../swipeable.css';
 
+
 function getTimeRemaining(epoch, step) {
 	return step - (Math.floor(epoch / 1000) % step);
 }
 
 function Token(props) {
 	const t = props.token;
+	const seconds = t.type === 'totp' ? props.seconds : null;
 	const [id, setId] = useState(null);
+	const [name, setName] = useState(null);
 	const [code, setCode] = useState(null);
 	const [secret, setSecret] = useState(null);
 	const [issuer, setIssuer] = useState(null);
-	const [name, setName] = useState(null);
-	const [timeRemaining, setTimeRemaining] = useState('');
+	const [timeRemaining, setTimeRemaining] = useState(null);
 
 
 	useEffect(() => {
@@ -28,56 +30,53 @@ function Token(props) {
 			const decSecret = await decrypt(cryptoKey, t.secret.text, t.secret.iv);
 			const decIssuer = await decrypt(cryptoKey, t.issuer.text, t.issuer.iv);
 			const decName = await decrypt(cryptoKey, t.name.text, t.name.iv);
+			setCode(genOtp(t, decSecret));
 			setSecret(decSecret);
 			setIssuer(decIssuer);
 			setName(decName);
+		}
+
+		if (t.type === 'totp') {
+			setTimeRemaining(getTimeRemaining(Date.now(), t.period));
 		}
 
 		setEncryptedItems();
 	},[t]);
 
 
-	useEffect( () => {
-		if (secret) {
-			setCode(genOtp(t, secret));
+	useEffect(() => {
+		if (seconds) {
+			setTimeRemaining(c => c - 1);
 		}
+	}, [seconds]);
 
-		if (t.type === 'totp' && secret) {
-			let secondsRemaining = getTimeRemaining(Date.now(), t.period);
-			setTimeRemaining(secondsRemaining);
 
-			var updateInterval = setInterval(() => {
-				if (secondsRemaining === 1) {
-					secondsRemaining = t.period;
-					setCode(genOtp(t, secret));
-				} else {
-					secondsRemaining -= 1;
-				}
-				setTimeRemaining(secondsRemaining);
-			}, 1000);
+	useEffect(() => {
+		if (secret && timeRemaining <= 1) {
+			let newCode = genOtp(t, secret);
+
+			if (newCode !== code) {
+				setCode(newCode);
+				setTimeRemaining(t.period);
+			}
+
 		}
-
-		if (t.type !== 'totp' && secret) {
-			setTimeRemaining(null);
-		}
-
-		return function cleanup() {
-			clearInterval(updateInterval);
-		};
-
-	}, [secret, t]);
+	}, [timeRemaining, t, secret, code]);
 
 
 	const copy = (code) => {
+		navigator.vibrate(3);
 		navigator.clipboard.writeText(code).then(() => props.complete());
 	};
 
+
 	const handleSwipe = () => {
-		navigator.vibrate([10, 80, 10]);
+		navigator.vibrate([5, 60, 5]);
 		setTimeout(() => {
 			setId(t._id)
 		}, 120);
 	};
+
 
 	if (id) {
 		return (<Redirect push to={`/edit/${id}`}/>);
@@ -99,7 +98,7 @@ function Token(props) {
 
 					<div className='tokenCode'>
 						<h2>{code}</h2>
-						{timeRemaining && <LineContainer timeRemaining={timeRemaining} period={t.period} />}
+						{timeRemaining >= 0 && <LineContainer num={timeRemaining} den={t.period} />}
 					</div>
 
 				</div>

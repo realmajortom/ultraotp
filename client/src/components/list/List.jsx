@@ -13,6 +13,35 @@ function List() {
 	const [redirect, setRedirect] = useState(null);
 	const [message, setMessage] = useState('');
 	const [toastVis, setToastVis] = useState(false);
+	const [seconds, setSeconds] = useState(0);
+
+
+	function getTokens() {
+		axios.get('https://ultraotp.com/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
+			if (res.data.success) {
+				setTokens(res.data.tokens);
+				localStorage.setItem('lastUpdate', Date.now());
+			} else {
+				setMessage(res.data.message);
+			}
+		});
+	}
+
+
+	useEffect(() => {
+		let tickerSeconds = 0;
+
+		var updateTicker = setInterval(() => {
+				tickerSeconds++;
+				setSeconds(tickerSeconds);
+		}, 1000);
+
+		return function cleanup() {
+			clearInterval(updateTicker);
+		}
+
+	}, []);
+
 
 
 	useEffect(() => {
@@ -20,19 +49,12 @@ function List() {
 		const cryptoKey = localStorage.getItem('cryptoKey');
 
 		if (Jwt && cryptoKey) {
-			axios.get('https://ultraotp.com/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
-				if (res.data.success) {
-					setTokens(res.data.tokens);
-				} else {
-					setMessage(res.data.message);
-				}
-			});
+			getTokens();
 		} else {
 			localStorage.removeItem('JWT');
 			localStorage.removeItem('cryptoKey');
 			setRedirect('/');
 		}
-
 	}, []);
 
 
@@ -55,6 +77,7 @@ function List() {
 		setRedirect('/');
 	}
 
+
 	if (redirect) {
 		return <Redirect to={redirect}/>;
 	} else {
@@ -72,7 +95,7 @@ function List() {
 
 				<ul className='tokenList'>
 					{tokens.map(t =>
-						<li key={t._id}><Token token={t} complete={() => setToastVis(true)}/></li>)}
+						<li key={t._id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)}/></li>)}
 				</ul>
 
 				<EntryBtn/>
