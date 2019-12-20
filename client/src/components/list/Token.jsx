@@ -73,7 +73,7 @@ function Token(props) {
 	};
 
 	const handleSwipe = () => {
-		window.navigator.vibrate([10, 80, 10]);
+		navigator.vibrate([10, 80, 10]);
 		setTimeout(() => {
 			setId(t._id)
 		}, 120);
