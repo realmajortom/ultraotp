@@ -29,7 +29,7 @@ function Register(props) {
 
 			const malt = await window.crypto.getRandomValues(new Uint8Array(16));
 
-			axios.post('https://ultraotp.com/register', {
+			axios.post('https://ultraotp.com/api/user/register', {
 				username: username,
 				password: password,
 				malt: String.fromCharCode(...new Uint8Array(malt))
