@@ -19,6 +19,7 @@
 		"otpauth": "^5.0.4",
 		"rc-progress": "^2.5.2",
 		"react": "^16.12.0",
+		"react-device-detect": "^1.11.14",
 		"react-dom": "^16.12.0",
 		"react-qr-reader": "^2.2.1",
 		"react-router-dom": "^5.1.2",

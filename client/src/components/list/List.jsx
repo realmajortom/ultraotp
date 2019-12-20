@@ -94,8 +94,8 @@ function List() {
 				</div>
 
 				<ul className='tokenList'>
-					{tokens.map(t =>
-						<li key={t._id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)}/></li>)}
+					{tokens.map((t, i) =>
+						<li key={t._id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}/></li>)}
 				</ul>
 
 				<EntryBtn/>

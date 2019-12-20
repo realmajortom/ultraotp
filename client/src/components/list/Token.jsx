@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
+import {isMobile} from "react-device-detect";
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import EditIcon from './EditIcon';
 import LineContainer from './LineContainer';
@@ -8,9 +9,30 @@ import genOtp from '../../helpers/gen-otp';
 import '../../swipeable.css';
 
 
+function TokenTile(props) {
+	const delay = (props.index * .075);
+
+	return (
+		<div className='Token fade-in' onClick={() => props.copy(props.code)} style={{animationDelay: `${delay}s`}}>
+
+			<div className='tokenInfo'>
+				<p className='tIssuer'>{props.issuer}</p>
+				<p className='tLabel'>{props.name}</p>
+			</div>
+
+			<div className='tokenCode'>
+				<h2>{props.code}</h2>
+				{props.timeRemaining >= 0 && <LineContainer num={props.timeRemaining} den={props.period} />}
+			</div>
+
+		</div>
+	)
+}
+
 function getTimeRemaining(epoch, step) {
 	return step - (Math.floor(epoch / 1000) % step);
 }
+
 
 function Token(props) {
 	const t = props.token;
@@ -81,30 +103,29 @@ function Token(props) {
 	if (id) {
 		return (<Redirect push to={`/edit/${id}`}/>);
 	} else if (secret && issuer && name) {
-		return (
-			<SwipeableList swipeStartThreshold={10} threshold={0.3}>
-				<SwipeableListItem
-					swipeLeft={{
-						content: <EditIcon />,
-						action: () => handleSwipe()
-					}}
-				>
-				<div className='Token' onClick={() => copy(code)}>
 
-					<div className='tokenInfo'>
-						<p className='tIssuer'>{issuer}</p>
-						<p className='tLabel'>{name}</p>
-					</div>
-
-					<div className='tokenCode'>
-						<h2>{code}</h2>
-						{timeRemaining >= 0 && <LineContainer num={timeRemaining} den={t.period} />}
-					</div>
-
+		if (isMobile) {
+			return (
+					<SwipeableList swipeStartThreshold={10} threshold={0.3}>
+						<SwipeableListItem
+							swipeLeft={{
+								content: <EditIcon click={null} index={props.index} />,
+								action: () => handleSwipe()
+							}}
+						>
+							<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining}/>
+						</SwipeableListItem>
+					</SwipeableList>
+			);
+		} else {
+			return (
+				<div className='desktopTokenWrapper'>
+					<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining} index={props.index}/>
+					<EditIcon click={() => setId(t._id)} index={props.index} />
 				</div>
-				</SwipeableListItem>
-			</SwipeableList>
-		);
+			)
+		}
+
 	} else {
 		return <div></div>
 	}
