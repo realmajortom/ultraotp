@@ -65,7 +65,7 @@ function Login(props) {
 							id='password'
 							name='password'
 							value={password}
-							autoComplete='new-password'
+							autoComplete='current-password'
 							spellCheck={false}
 							required
 							className='primaryInput'

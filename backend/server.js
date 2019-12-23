@@ -62,7 +62,6 @@ app.use(bodyParser.json());
 const userLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 60,
-	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('User limiter reached.', {ip: req.ip, limiter: 'user'});
 	}
@@ -71,7 +70,6 @@ const userLimiter = rateLimit({
 const docLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 120,
-	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('Doc limiter reached.', {ip: req.ip, limiter: 'doc'});
 	}
@@ -80,14 +78,13 @@ const docLimiter = rateLimit({
 const homeLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 60,
-	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('Home limiter reached.', {ip: req.ip, limiter: 'home'});
 	}
 });
 
 
-app.use('/api/user', userLimiter)
+app.use('/api/user', userLimiter);
 app.use('/api/doc', docLimiter);
 app.use('/', homeLimiter);
 
