@@ -113,14 +113,14 @@ function Token(props) {
 								action: () => handleSwipe()
 							}}
 						>
-							<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining}/>
+							<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining} />
 						</SwipeableListItem>
 					</SwipeableList>
 			);
 		} else {
 			return (
 				<div className='desktopTokenWrapper'>
-					<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining} index={props.index}/>
+					<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining} index={props.index} />
 					<EditIcon click={() => setId(t._id)} index={props.index} />
 				</div>
 			)
