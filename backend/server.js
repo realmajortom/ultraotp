@@ -59,17 +59,10 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 
-function limitHandler(req, res){
-	res.status(options.statusCode).json({message: options.message, success: false});
-	if (req.body && req.body.resetSecret === process.env.RESET_SECRET) {
-		this.resetKey(req.ip);
-	}
-}
-
 const userLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 60,
-	handler: limitHandler(),
+	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('User limiter reached.', {ip: req.ip, limiter: 'user'});
 	}
@@ -78,7 +71,7 @@ const userLimiter = rateLimit({
 const docLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 120,
-	handler: limitHandler(),
+	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('Doc limiter reached.', {ip: req.ip, limiter: 'doc'});
 	}
@@ -87,7 +80,7 @@ const docLimiter = rateLimit({
 const homeLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 60,
-	handler: limitHandler(),
+	handler: function (req, res) {res.status(options.statusCode).json({message: options.message, success: false});},
 	onLimitReached: function (req) {
 		logger.warn('Home limiter reached.', {ip: req.ip, limiter: 'home'});
 	}
