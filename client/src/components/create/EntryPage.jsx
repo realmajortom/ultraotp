@@ -94,8 +94,7 @@ function EntryPage() {
 			let otpType = data.slice(10, 14);
 
 			if (otpType === 'totp' || otpType === 'hotp') {
-
-				let otpSecret = data.match(/(?<=secret=).+?(?=&)|(?<=secret=)(.+)/i);
+				let otpSecret = data.match(/(secret=).+?(?=&)|(secret=)(.+)/i)[0].slice(7);
 
 				if (otpSecret === null) {
 					setMessage('Could not parse the OTP secret. Please try manually entering the information.');
@@ -104,7 +103,7 @@ function EntryPage() {
 					let otp = OTPAuth.URI.parse(data);
 					setName(otp.label || '');
 					setIssuer(otp.issuer || '');
-					setSecret(otpSecret[0]);
+					setSecret(otpSecret);
 					setType(otpType || 'totp');
 					setAlgo(otp.algorithm || 'SHA1');
 					setDigits(otp.digits || 6);
