@@ -1,6 +1,6 @@
 {
 	"name": "ultraotp",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "ultra-otp multi-device otp tool",
 	"main": "server.js",
 	"engines": {
@@ -23,7 +23,6 @@
 	"dependencies": {
 		"@google-cloud/debug-agent": "^4.2.1",
 		"@google-cloud/logging-winston": "^3.0.2",
-		"@google-cloud/profiler": "^3.0.1",
 		"@google-cloud/trace-agent": "^4.2.4",
 		"bcrypt": "^3.0.7",
 		"body-parser": "^1.19.0",

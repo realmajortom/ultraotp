@@ -1,5 +1,4 @@
 require('@google-cloud/trace-agent').start();
-require('@google-cloud/profiler').start();
 require('@google-cloud/debug-agent').start();
 
 require('dotenv').config();
@@ -12,6 +11,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require("express-rate-limit");
 const {LoggingWinston} = require('@google-cloud/logging-winston');
+
 const doc = require('./routes/doc');
 const user = require('./routes/user');
 
@@ -28,18 +28,17 @@ const logger = winston.createLogger({
 		loggingWinston
 	],
 });
-logger.error('Winston error!');
-logger.info('Winston info');
 
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
 	useFindAndModify: false,
 	useUnifiedTopology: true
-}).catch(error => console.log(`Initial connection error: ${{error}}`));
+}).catch(err => logger.error(`Database connection error: ${{err}}`));
+
 const db = mongoose.connection;
-db.once('open', () => console.log('Successfully connected to database'));
-db.on('error', err => console.error.bind(console, `Database runtime error: ${err}`));
+db.once('open', () => logger.info('Successfully connected to database'));
+db.on('error', err => logger.error(`Database runtime error: ${err}`));
 
 
 app.set('trust proxy', true);
@@ -60,20 +59,44 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 
-const apiLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 60m
-	max: 180,
-	message: 'Too many API requests, please try again later.'
-});
+function limitHandler(req, res){
+	res.status(options.statusCode).json({message: options.message, success: false});
+	if (req.body && req.body.resetSecret === process.env.RESET_SECRET) {
+		this.resetKey(req.ip);
+	}
+}
 
-const genLimiter = rateLimit({
+const userLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60m
 	max: 60,
-	message: 'Too many requests, please try again later.'
+	handler: limitHandler(),
+	onLimitReached: function (req) {
+		logger.warn('User limiter reached.', {ip: req.ip, limiter: 'user'});
+	}
 });
 
-app.use('/api/', apiLimiter);
-app.use('/*', genLimiter);
+const docLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 60m
+	max: 120,
+	handler: limitHandler(),
+	onLimitReached: function (req) {
+		logger.warn('Doc limiter reached.', {ip: req.ip, limiter: 'doc'});
+	}
+});
+
+const homeLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 60m
+	max: 60,
+	handler: limitHandler(),
+	onLimitReached: function (req) {
+		logger.warn('Home limiter reached.', {ip: req.ip, limiter: 'home'});
+	}
+});
+
+
+app.use('/api/user', userLimiter)
+app.use('/api/doc', docLimiter);
+app.use('/', homeLimiter);
 
 
 app.use('/api/user', user);
