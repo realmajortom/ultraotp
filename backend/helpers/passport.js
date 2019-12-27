@@ -1,5 +1,5 @@
 require('dotenv').config();
-const passport = require('backend/helpers/passport');
+const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const users = require('./firestore').users;

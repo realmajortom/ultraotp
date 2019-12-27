@@ -6,7 +6,7 @@ const path = require('path');
 const helmet = require('helmet');
 const express = require('express');
 const bodyParser = require('body-parser');
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
 
 
 const doc = require('./routes/doc');
@@ -28,10 +28,13 @@ app.use((req, res, next) => {
 });
 
 
+app.use(express.static(path.join(__dirname, 'build')));
+
+
 app.use(cors());
 app.use(helmet());
-app.use(helmet.referrerPolicy({policy: 'same-origin'}));
-app.use(helmet.contentSecurityPolicy({directives: {defaultSrc: ['\'self\'']}}));
+// app.use(helmet.referrerPolicy({policy: 'same-origin'}));
+// app.use(helmet.contentSecurityPolicy({directives: {defaultSrc: ['self']}}));
 app.use(bodyParser.json());
 
 
@@ -64,16 +67,11 @@ app.use('/api/doc', docLimiter);
 app.use('/', homeLimiter);
 
 
-app.use(express.static(path.join(__dirname, 'build')));
-
-
 app.use('/api/user', user);
 app.use('/api/doc', doc);
 
 
-app.get('/*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+app.get('/*', (req, res) => {res.sendFile(path.join(__dirname, 'build', 'index.html'));});
 
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
