@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
@@ -89,13 +89,13 @@ function List() {
 				<Toast message='Copied!' vis={toastVis}/>
 
 				<div className='homeHeader'>
-					<h1>Ultra OTP</h1>
+					<h1>Firestore OTP</h1>
 					<button className='primaryBtn logoutBtn redirectBtn' onClick={() => logout()}>Log Out</button>
 				</div>
 
 				<ul className='tokenList'>
 					{tokens.map((t, i) =>
-						<li key={t._id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}/></li>)}
+						<li key={t.id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}/></li>)}
 				</ul>
 
 				<EntryBtn/>

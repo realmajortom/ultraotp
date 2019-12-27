@@ -20,7 +20,7 @@ function Login(props) {
 
 		axios.post('https://ultraotp.com/api/user/login', {username: username, password: password}).then(async (res) => {
 			if (res.data.success) {
-				const cryptoKey = await getDerivedKey(password, Uint8Array.from([...res.data.malt].map(ch => ch.charCodeAt())));
+				const cryptoKey = await getDerivedKey(password, Uint8Array.from([...res.data.salt].map(ch => ch.charCodeAt())));
 				localStorage.setItem('cryptoKey', JSON.stringify(cryptoKey));
 				localStorage.setItem('JWT', res.data.JWT);
 				setSuccess(true);

@@ -32,3 +32,5 @@ node_modules/
 export.json
 
 app.yaml
+
+firestore_credentials.json

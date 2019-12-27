@@ -1,10 +1,9 @@
 require('dotenv').config();
-const passport = require('passport');
+const passport = require('backend/helpers/passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const users = require('./firestore').users;
 
-
-const User = require('../models/user-model');
 
 const opts = {
 	secretOrKey: process.env.JWT_SECRET,
@@ -14,16 +13,15 @@ const opts = {
 	}
 };
 
+
 passport.use('jwt', new JwtStrategy(opts, (jwt_payload, done) => {
-
-	User.findById(jwt_payload.sub, (err, user) => {
-		if (err) {
-			return done(err, false);
-		} else if (user) {
-			return done(null, user._id);
-		} else {
+	users.doc(jwt_payload.sub).get().then(doc => {
+		if (!doc.exists) {
 			return done(null, false);
+		} else {
+			return done(null, doc.id);
 		}
+	}).catch(err => {
+		return done(err, false);
 	});
-
 }));

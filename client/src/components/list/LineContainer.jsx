@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, withStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
@@ -33,14 +33,6 @@ export default function LineContainer(props) {
 
 	return (
 		<div className='lineContainer' >
-			{/*<Line*/}
-			{/*	style={{width: '50px'}}*/}
-			{/*	percent={num >= 1 ? ((props.num / props.den) * 100) : 1}*/}
-			{/*	strokeWidth={1}*/}
-			{/*	strokeColor='rgba(50, 232, 117, 0.4)'*/}
-			{/*	trailWidth={1}*/}
-			{/*	trailColor='#eeeeee'*/}
-			{/*/>*/}
 			<ColorLinearProgress variant="determinate" className={classes.root} value={num >= 1 ? ((props.num / props.den) * 100) : 1} />
 		</div>
 	)

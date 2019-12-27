@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import {isMobile} from "react-device-detect";
-import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import {isMobile} from 'react-device-detect';
+import {SwipeableList, SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import EditIcon from './EditIcon';
 import LineContainer from './LineContainer';
 import decrypt from '../../crypto/decrypt';
@@ -95,7 +95,7 @@ function Token(props) {
 	const handleSwipe = () => {
 		navigator.vibrate([5, 60, 5]);
 		setTimeout(() => {
-			setId(t._id)
+			setId(t.id);
 		}, 120);
 	};
 
@@ -120,8 +120,14 @@ function Token(props) {
 		} else {
 			return (
 				<div className='desktopTokenWrapper'>
-					<TokenTile copy={copy} issuer={issuer} name={name} period={t.period} code={code} timeRemaining={timeRemaining} index={props.index} />
-					<EditIcon click={() => setId(t._id)} index={props.index} />
+					<TokenTile copy={copy}
+										 issuer={issuer}
+										 name={name}
+										 period={t.period}
+										 code={code}
+										 timeRemaining={timeRemaining}
+										 index={props.index}/>
+					<EditIcon click={() => setId(t.id)} index={props.index}/>
 				</div>
 			)
 		}

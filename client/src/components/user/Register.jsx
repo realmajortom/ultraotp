@@ -27,16 +27,16 @@ function Register(props) {
 			setMessage('Master password must contain at least 12 characters.');
 		} else {
 
-			const malt = await window.crypto.getRandomValues(new Uint8Array(16));
+			const salt = await window.crypto.getRandomValues(new Uint8Array(16));
 
 			axios.post('https://ultraotp.com/api/user/register', {
 				username: username,
 				password: password,
-				malt: String.fromCharCode(...new Uint8Array(malt))
+				salt: String.fromCharCode(...new Uint8Array(salt))
 			}).then(async (res) => {
 
 				if (res.data.success) {
-					const cryptoKey = await getDerivedKey(password, malt);
+					const cryptoKey = await getDerivedKey(password, salt);
 					localStorage.setItem('cryptoKey', JSON.stringify(cryptoKey));
 					localStorage.setItem('JWT', res.data.JWT);
 					setSuccess(true);

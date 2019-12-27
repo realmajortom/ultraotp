@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect, useParams} from 'react-router-dom';
 import axios from 'axios';
 
@@ -71,7 +71,7 @@ export default function Edit() {
 			const encIssuer = await encrypt(cryptoKey, issuer);
 			const encName = await encrypt(cryptoKey, name);
 
-			axios.post(`https//ultraotp.com/api/doc/update/${id}`, {
+			axios.post(`https://ultraotp.com/api/doc/update/${id}`, {
 				digits: digits,
 				period: period,
 				type: type,
