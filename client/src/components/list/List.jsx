@@ -89,7 +89,7 @@ function List() {
 				<Toast message='Copied!' vis={toastVis}/>
 
 				<div className='homeHeader'>
-					<h1>Firestore OTP</h1>
+					<h1>Ultra OTP</h1>
 					<button className='primaryBtn logoutBtn redirectBtn' onClick={() => logout()}>Log Out</button>
 				</div>
 

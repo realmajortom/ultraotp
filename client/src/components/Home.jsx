@@ -15,7 +15,7 @@ function Home() {
 				<div className='homeHeader'>
 
 					<div className='homeTitles'>
-						<h1>Firestore OTP</h1>
+						<h1>Ultra OTP</h1>
 					</div>
 
 					<nav className='homeLinksWrapper'>
