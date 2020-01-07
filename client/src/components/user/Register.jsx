@@ -28,10 +28,11 @@ function Register(props) {
 		} else {
 
 			const salt = await window.crypto.getRandomValues(new Uint8Array(16));
+			const passHash = await getDerivedKey(password.concat(username), Uint8Array.from([...username].map(ch => ch.charCodeAt())));
 
 			axios.post('https://ultraotp.com/api/user/register', {
 				username: username,
-				password: password,
+				password: passHash.k,
 				salt: String.fromCharCode(...new Uint8Array(salt))
 			}).then(async (res) => {
 

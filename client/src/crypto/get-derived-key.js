@@ -1,4 +1,3 @@
-
 function getKeyMaterial(plainPassword) {
 	const enc = new TextEncoder();
 	return window.crypto.subtle.importKey(

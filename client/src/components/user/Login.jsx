@@ -15,10 +15,12 @@ function Login(props) {
 	const [message, setMessage] = useState('');
 
 
-	function submit(e) {
+	async function submit(e) {
 		e.preventDefault();
 
-		axios.post('https://ultraotp.com/api/user/login', {username: username, password: password}).then(async (res) => {
+		const passHash = await getDerivedKey(password.concat(username), Uint8Array.from([...username].map(ch => ch.charCodeAt())));
+
+		axios.post('https://ultraotp.com/api/user/login', {username: username, password: passHash.k}).then(async (res) => {
 			if (res.data.success) {
 				const cryptoKey = await getDerivedKey(password, Uint8Array.from([...res.data.salt].map(ch => ch.charCodeAt())));
 				localStorage.setItem('cryptoKey', JSON.stringify(cryptoKey));
