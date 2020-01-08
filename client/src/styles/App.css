@@ -68,7 +68,7 @@ main p, .postHList {
 	margin-top: 0;
 }
 
-section {
+main section {
 	/*margin: 50px 0;*/
 	background-color: #ffffff;
 	border-radius: 14px;
@@ -460,6 +460,20 @@ small {
 	margin-top: 40px;
 }
 
+.camSection {
+	max-width: 420px;
+	width: 98%;
+}
+
+.camSection section {
+	border-radius: 14px;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.10);
+}
+
+.camSection section div:first-child {
+	border: 50px solid rgba(0, 0, 0, 0.65) !important;
+	box-shadow: rgba(50, 232, 117, 0.5) 0 0 0 5px inset !important;
+}
 
 .fade-in {
 	animation-name: fadeInOpacity;
@@ -559,7 +573,7 @@ small {
 		color: #ff9db1;
 	}
 
-	.entryForm, .Token, .alertBox, section {
+	.entryForm, .Token, .alertBox, main section {
 		background-color: #222222;
 	}
 

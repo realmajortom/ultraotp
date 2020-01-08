@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import QrReader from 'react-qr-reader';
 import OTPAuth from 'otpauth';
@@ -144,7 +144,8 @@ function EntryPage() {
 						showViewFinder={true}
 						onError={() => scanError()}
 						onScan={(data) => scanSuccess(data)}
-						style={{width: '90%', maxWidth: '400px'}}
+						className='camSection'
+						id='camSection'
 					/>
 
 					<p>{camSubtitle}</p>
