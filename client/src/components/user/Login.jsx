@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Alert from '../generic/Alert';
 import getDerivedKey from '../../crypto/get-derived-key';
@@ -41,7 +41,19 @@ function Login(props) {
 
 				<Alert message={message} close={() => setMessage('')}/>
 
-				<h1>Login</h1>
+
+				<header className='homeHeader'>
+
+					<div className='homeTitles'>
+						<h1>Login</h1>
+					</div>
+
+					<nav className='homeLinksWrapper'>
+						<Link to='/' className='primaryBtn alertBtn cancelBtn btnFlex'>Back</Link>
+					</nav>
+
+				</header>
+
 
 				<form className='entryForm'>
 
