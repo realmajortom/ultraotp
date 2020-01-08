@@ -33,8 +33,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(cors());
 app.use(helmet());
-// app.use(helmet.referrerPolicy({policy: 'same-origin'}));
-// app.use(helmet.contentSecurityPolicy({directives: {defaultSrc: ['self']}}));
 app.use(bodyParser.json());
 
 
