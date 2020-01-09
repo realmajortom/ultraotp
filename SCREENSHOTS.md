@@ -3,8 +3,8 @@
 ## Add to homescreen
 
 <kbd><img src="https://ultraotp.com/nocache/media/add-to-hs_android.gif" width="300px" alt="Add to Homescreen on Android"></kbd>
-&nbsp;&nbsp;
-<kbd><img src="https://ultraotp.com/nocache/media/add-to-hs_iphone.gif" width="300px" alt="Add to Homescreen on iPhone"></kbd>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<kbd><img src="https://ultraotp.com/nocache/media/add-to-hs_iphone.gif" height="633px" alt="Add to Homescreen on iPhone"></kbd>
 
 <br>
 
