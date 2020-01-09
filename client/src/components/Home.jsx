@@ -100,7 +100,7 @@ function Home() {
 
 				<footer>
 					<a href='mailto:thomas@thomasg.dev'>Contact me</a>
-					<a href='https://github.com/tggir1/ultraotp' target='_blank' rel='noopener noreferrer'>View code on GitHub</a>
+					<a href='https://github.com/tggir1/ultraotp' target='_blank' rel='noopener noreferrer'>Ultra OTP on GitHub</a>
 				</footer>
 
 			</div>
