@@ -12,30 +12,33 @@ function Home() {
 		return (
 			<div>
 
-				<header className='homeHeader'>
+				<header className='homeHeader landingWrapper'>
 
 					<div className='homeTitles'>
 						<h1>Ultra OTP</h1>
+						<h4>Two-factor authenticator</h4>
 					</div>
 
-					<nav className='homeLinksWrapper'>
-						<Link to='/register' className='primaryBtn alertBtn cancelBtn btnFlex'>Register</Link>
-						<Link to='/login' className='primaryBtn alertBtn'>Sign In</Link>
-					</nav>
+					<div>
+						<nav className='homeLinksWrapper'>
+							<Link to='/register' className='primaryBtn alertBtn cancelBtn btnFlex'>Register</Link>
+							<Link to='/login' className='primaryBtn cancelBtn alertBtn'>Sign In</Link>
+						</nav>
+					</div>
 
 				</header>
 
 				<main>
 
 					<section className='introSection'>
-						<h2>Open-Source Two-Factor Authenticator</h2>
-						<p><strong>Conveniently and securely access one-time password tokens from any device.</strong></p>
+						<h2>Conveniently and securely access one-time password tokens from any device.</h2>
+						<Link to='/screenshots' className='primaryBtn noBorder'><h2>Screenshots & Guide</h2></Link>
 					</section>
 
 
 					<section>
-						<h2>Ultra Flexible</h2>
-						<p>Ultra OTP is capable of generating both HMAC-based (HOTP) and time-based (TOTP) one-time passwords and includes advanced configuration options.</p>
+						<h2>Flexible</h2>
+						<p>Ultra OTP is capable of generating both HMAC-based (HOTP) and time-based (TOTP) one-time passwords and includes configuration options for advanced users.</p>
 						<ul className='postHList'>
 							<li>Access from any mobile or desktop browser</li>
 							<li>Install on your smartphone as a standalone Progressive Web App</li>
@@ -50,7 +53,7 @@ function Home() {
 
 
 					<section>
-						<h2>Ultra Secure</h2>
+						<h2>Secure</h2>
 						<p><strong>Zero sensitive information ever leaves your device before being encrypted.</strong><br/>The <a
 							href='https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto'
 							target='_blank'
@@ -86,7 +89,7 @@ function Home() {
 
 
 					<section>
-						<h2>Ultra Private</h2>
+						<h2>Private</h2>
 						<p className='preListP'>Ultra OTP is built from the ground up to ensure user privacy and security.</p>
 						<ul className='postPList'>
 							<li>No personal information is needed to create an account</li>

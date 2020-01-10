@@ -1,23 +1,23 @@
 {
 	"files": {
-		"main.css": "/static/css/main.269eeba1.chunk.css",
-		"main.js": "/static/js/main.3e90a9e0.chunk.js",
-		"main.js.map": "/static/js/main.3e90a9e0.chunk.js.map",
+		"main.css": "/static/css/main.991ce85c.chunk.css",
+		"main.js": "/static/js/main.7a59aa54.chunk.js",
+		"main.js.map": "/static/js/main.7a59aa54.chunk.js.map",
 		"runtime-main.js": "/static/js/runtime-main.72af4ec0.js",
 		"runtime-main.js.map": "/static/js/runtime-main.72af4ec0.js.map",
 		"static/js/2.992d555c.chunk.js": "/static/js/2.992d555c.chunk.js",
 		"static/js/2.992d555c.chunk.js.map": "/static/js/2.992d555c.chunk.js.map",
 		"index.html": "/index.html",
-		"precache-manifest.70bb45964532d3796894b26fdfc30a6c.js": "/precache-manifest.70bb45964532d3796894b26fdfc30a6c.js",
+		"precache-manifest.8a3a72be3273b59e0d95bb07e7e08380.js": "/precache-manifest.8a3a72be3273b59e0d95bb07e7e08380.js",
 		"service-worker.js": "/service-worker.js",
-		"static/css/main.269eeba1.chunk.css.map": "/static/css/main.269eeba1.chunk.css.map",
+		"static/css/main.991ce85c.chunk.css.map": "/static/css/main.991ce85c.chunk.css.map",
 		"static/js/2.992d555c.chunk.js.LICENSE": "/static/js/2.992d555c.chunk.js.LICENSE",
 		"static/media/index.css": "/static/media/Manrope-SemiBold.46cd7793.woff2"
 	},
 	"entrypoints": [
 		"static/js/runtime-main.72af4ec0.js",
 		"static/js/2.992d555c.chunk.js",
-		"static/css/main.269eeba1.chunk.css",
-		"static/js/main.3e90a9e0.chunk.js"
+		"static/css/main.991ce85c.chunk.css",
+		"static/js/main.7a59aa54.chunk.js"
 	]
 }

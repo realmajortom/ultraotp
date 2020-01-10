@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './styles/App.css';
 
 import Login from './components/user/Login';
@@ -8,6 +8,7 @@ import EntryPage from './components/create/EntryPage';
 import List from './components/list/List';
 import Home from './components/Home';
 import Edit from './components/edit/Edit';
+import Screenshots from './components/Screenshots';
 
 
 export default function App() {
@@ -18,7 +19,8 @@ export default function App() {
           <div className='App'>
 
             <Switch>
-              <Route path='/login'> <Login /> </Route>
+              <Route path='/screenshots'><Screenshots/></Route>
+              <Route path='/login'> <Login/> </Route>
               <Route path='/register'> <Register /> </Route>
               <Route path='/new'> <EntryPage/> </Route>
               <Route path='/list'> <List/></Route>
