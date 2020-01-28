@@ -52,8 +52,39 @@ h4 {
 	right: 10px;
 }
 
+.SettingsMenu {
+	z-index: 100;
+	position: absolute;
+	top: 70px;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: rgba(0, 0, 0, 0.11) 0 14px 20px 0;
+	/*border: 1px solid rgba(0, 0, 0, 0.1);*/
+	padding: 10px 0;
+	border-radius: 6px;
+}
+
+.menuItem:first-of-type {
+	text-decoration: none;
+	color: #000000;
+	font-weight: 700;
+	padding: 10px 20px;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
+}
+
+.menuItem:last-of-type {
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.menuItem:hover, .menuItem:focus, .menuItem:active {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
 /**************** Home ****************/
 .homeHeader {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	margin: auto;
@@ -143,10 +174,6 @@ footer {
 	box-shadow: none;
 	display: flex;
 	flex-flow: column nowrap;
-}
-
-.ssLargeMultiWrapper {
-
 }
 
 .ssMultiWrapper {
@@ -247,9 +274,9 @@ footer {
 	color: rgb(218, 44, 56);
 }
 
-.redirectBtn {
-	margin-top: 10px;
-}
+/*.redirectBtn {*/
+/*	margin-top: 10px;*/
+/*}*/
 
 .alertBtn {
 	padding: 10px 30px;
@@ -326,6 +353,14 @@ footer {
 	display: block;
 }
 
+.gearIcn {
+	fill: #bbb;
+	transition: all 200ms ease 0ms;
+}
+
+.gearWrapper:hover .gearIcn, .gearWrapper:focus .gearIcn, .gearWrapper:active .gearIcn {
+	fill: #111111;
+}
 
 /**************** Forms ****************/
 label {
@@ -750,13 +785,25 @@ small {
 	.EntryBtn {
 		background: #4971b7;
 	}
+
 	.Token:active {
 		background-color: #3e5644;
 	}
+
 	.EditIconInner {
 		background-color: rgba(255, 255, 255, 0.6);
 	}
+
 	.desktopTokenWrapper .EditIconInner:hover, .EditIconInner:focus {
 		background-color: rgba(255, 255, 255, 0.9);
 	}
+
+	.gearIcn {
+		fill: rgba(255, 255, 255, 0.6);
+	}
+
+	.gearWrapper:hover .gearIcn, .gearWrapper:focus .gearIcn, .gearWrapper:active .gearIcn {
+		fill: #ffffff;
+	}
+
 }

@@ -6,6 +6,8 @@ import EntryBtn from '../create/EntryBtn';
 import Alert from '../generic/Alert';
 import Toast from '../generic/Toast';
 import Token from './Token';
+import Gear from "../generic/Gear";
+import SettingsMenu from "../generic/SettingsMenu";
 
 
 function List() {
@@ -13,6 +15,7 @@ function List() {
 	const [redirect, setRedirect] = useState(null);
 	const [message, setMessage] = useState('');
 	const [toastVis, setToastVis] = useState(false);
+	const [menuVis, setMenuVis] = useState(false);
 	const [seconds, setSeconds] = useState(0);
 
 
@@ -84,6 +87,17 @@ function List() {
 		return (
 			<div>
 
+				<div className='anon' style={menuVis ? {
+					position: 'fixed',
+					top: 0,
+					left: 0,
+					width: '100vw',
+					height: '100vh',
+					zIndex: 2
+				} : {display: 'none'}} onClick={() => setMenuVis(false)}>
+
+				</div>
+
 				<Alert close={() => setMessage('')} message={message}/>
 
 				<Toast message='Copied!' vis={toastVis}/>
@@ -92,11 +106,16 @@ function List() {
 					<h1>Ultra OTP</h1>
 
 					<div className='homeLinksWrapper linkFlexRight'>
-						<button className='primaryBtn cancelBtn btnFlex redirectBtn'
-								onClick={() => setRedirect('/list')}>Cancel
-						</button>
-						<button className='primaryBtn logoutBtn redirectBtn' onClick={() => logout()}>Log Out</button>
+						<button className='gearWrapper' style={{
+							margin: '0 10px 0 0',
+							backgroundColor: 'transparent',
+							border: 'none',
+							cursor: 'pointer'
+						}} onClick={() => setMenuVis(!menuVis)}><Gear/></button>
+						<button className='primaryBtn logoutBtn' onClick={() => logout()}>Log Out</button>
 					</div>
+
+					<SettingsMenu vis={menuVis} close={() => setMenuVis(false)}/>
 				</div>
 
 				<ul className='tokenList'>
