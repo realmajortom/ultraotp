@@ -39,7 +39,7 @@
 <br>
 
 ## To update a token, simple slide it to the left in the main list
-<kbd><img src="https://ultraotp.com/nocache/media/edit-token.gif" width="300px" alt="Slide Left to Edit"></kbd>
+<kbd><img src="https://ultraotp.com/nocache/media/edit-token.gif" width="300px" alt="Slide Left to EditToken"></kbd>
 
 
 

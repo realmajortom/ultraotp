@@ -1,12 +1,48 @@
 const express = require('express');
 const passport = require('passport');
 const FieldValue = require('firebase-admin').firestore.FieldValue;
-const tokens = require('../helpers/firestore').tokens;
-require('../helpers/passport');
 const logger = require('../helpers/gcloud-winston-logger');
+const tokens = require('../helpers/firestore').tokens;
+const users = require('../helpers/firestore').users;
+require('../helpers/passport');
 
 const router = express.Router();
 router.use(passport.initialize());
+
+
+router.post('/update-order', (req, res) => {
+	passport.authenticate('jwt', {session: false}, (err, user) => {
+
+		if (err) {
+			logger.error(err, {ip: req.ip});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'order-01'});
+
+		} else if (user) {
+
+			users.doc(user)
+				.update({tokenOrder: req.body.newOrder})
+				.then(() => {
+					return res.json({success: true});
+				})
+				.catch(err => {
+					logger.error(err, {ip: req.ip});
+					return res.json({
+						success: false,
+						message: 'An error occurred, please try saving again.',
+						code: 'order-02'
+					});
+				});
+
+		} else {
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'order-03'
+			});
+		}
+
+	})(req, res);
+});
 
 
 router.get('/tokens', (req, res) => {
@@ -14,18 +50,33 @@ router.get('/tokens', (req, res) => {
 
 		if (err) {
 			logger.error(err, {ip: req.ip});
-			return res.json({success: false, message: 'An error occurred, please try again.', code: 't-1'});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'tokens-01'});
 
 		} else if (user) {
+
+			let tokenOrder = [];
+
+			users.doc(user).get().then(doc => {
+				if (!doc.exists) {
+					logger.error('Error finding user for token sort operation.');
+				} else {
+					let userDoc = doc.data();
+					tokenOrder = userDoc.tokenOrder;
+				}
+			}).catch(err => {
+				logger.error(err, {ip: req.ip});
+			});
 
 			tokens.where('owner', '==', user).get().then(snapshot => {
 				if (snapshot.empty) {
 					return res.json({success: true, tokens: []});
 				} else {
-					let userTokenArray = [];
+					let unsortedTokens = [];
+					let sortedTokens = [];
+
 					snapshot.forEach(doc => {
 						const data = doc.data();
-						userTokenArray.push({
+						unsortedTokens.push({
 							id: doc.id,
 							name: data.name,
 							issuer: data.issuer,
@@ -36,15 +87,33 @@ router.get('/tokens', (req, res) => {
 							period: data.period
 						});
 					});
-					return res.json({success: true, tokens: userTokenArray});
+
+					if (tokenOrder.length > 0) {
+						for (let i = 0; i < tokenOrder.length; i++) {
+							let index = unsortedTokens.findIndex(t => t.id === tokenOrder[i]);
+							if (index >= 0) {
+								sortedTokens.push(unsortedTokens[index]);
+								unsortedTokens.splice(index, 1);
+							}
+						}
+						sortedTokens = sortedTokens.concat(unsortedTokens);
+					} else {
+						sortedTokens = unsortedTokens;
+					}
+
+					return res.json({success: true, tokens: sortedTokens});
 				}
 			}).catch(err => {
 				logger.error(err, {ip: req.ip});
-				return res.json({success: false, message: 'An error occurred, please try again.', code: 't-2'});
+				return res.json({success: false, message: 'An error occurred, please try again.', code: 'tokens-02'});
 			});
 
 		} else {
-			return res.json({success: false, message: 'An authorization error occurred, please try again.', code: 't-3'});
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'tokens-03'
+			});
 		}
 
 	})(req, res);
@@ -56,7 +125,7 @@ router.post('/new', (req, res) => {
 
 		if (err) {
 			logger.error(err, {ip: req.ip});
-			return res.json({success: false, message: 'An error occurred, please try again.', code: 't-4'});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'new-01'});
 
 		} else if (user) {
 
@@ -78,11 +147,15 @@ router.post('/new', (req, res) => {
 				return res.json({success: true});
 			}).catch(err => {
 				logger.error(err, {ip: req.ip});
-				return res.json({success: false, message: 'An error occurred, please try again.', code: 't-5'});
+				return res.json({success: false, message: 'An error occurred, please try again.', code: 'new-02'});
 			});
 
 		} else {
-			return res.json({success: false, message: 'An authorization error occurred, please try again.', code: 't-6'});
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'new-03'
+			});
 		}
 
 	})(req, res);
@@ -94,22 +167,32 @@ router.post('/delete/:id', (req, res) => {
 
 		if (err) {
 			logger.error(err, {ip: req.ip});
-			return res.json({success: false, message: 'An error occurred, please try again.', code: 't-7'});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'delete-01'});
 
 		} else if (user) {
 
 			tokens.doc(req.params.id).get().then(doc => {
 				if (!doc.exists) {
-					return res.json({success: false, message: 'Token not found in database. Operation failed.', code: 't-8a'});
+					return res.json({
+						success: false,
+						message: 'Token not found in database. Operation failed.',
+						code: 'delete-02'
+					});
 				} else {
 					const token = doc.data();
+
 					if (token.owner === user) {
 						tokens.doc(req.params.id).delete().then(() => {
 							return res.json({success: true});
 						}).catch(err => {
 							logger.error(err, {ip: req.ip});
-							return res.json({success: false, message: 'Error deleting token, please try again.', code: 't-8b'});
+							return res.json({
+								success: false,
+								message: 'Error deleting token, please try again.',
+								code: 'delete-03'
+							});
 						});
+
 					} else {
 						logger.warn('Unauthorized operation attempted', {
 							userId: user,
@@ -117,16 +200,24 @@ router.post('/delete/:id', (req, res) => {
 							tokenId: req.params.id,
 							ip: req.ip
 						});
-						return res.json({success: false, message: 'Unauthorized operation.', code: 't-8c'});
+						return res.json({success: false, message: 'Unauthorized operation.', code: 'delete-04'});
 					}
 				}
 			}).catch(err => {
 				logger.error(err, {ip: req.ip});
-				return res.json({success: false, message: 'Error deleting token, please try again.', code: 't-9a'});
+				return res.json({
+					success: false,
+					message: 'Error deleting token, please try again.',
+					code: 'delete-05'
+				});
 			});
 
 		} else {
-			return res.json({success: false, message: 'An authorization error occurred, please try again.', code: 't-9'});
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'delete-06'
+			});
 		}
 	})(req, res);
 });
@@ -137,13 +228,13 @@ router.get('/token/:id', (req, res) => {
 
 		if (err) {
 			logger.error(err, {ip: req.ip});
-			return res.json({success: false, message: 'An error occurred, please try again.', code: 't-10'});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'single-01'});
 
 		} else if (user) {
 
 			tokens.doc(req.params.id).get().then(doc => {
 				if (!doc.exists) {
-					return res.json({success: false, message: 'Requested token not found.', code: 't-11'});
+					return res.json({success: false, message: 'Requested token not found.', code: 'single-02'});
 				} else {
 
 					const token = doc.data();
@@ -169,17 +260,21 @@ router.get('/token/:id', (req, res) => {
 							tokenId: req.params.id,
 							ip: req.ip
 						});
-						return res.json({success: false, message: 'Unauthorized operation.', code: 't-11b'});
+						return res.json({success: false, message: 'Unauthorized operation.', code: 'single-03'});
 					}
 
 				}
 			}).catch(err => {
 				logger.error(err, {ip: req.ip});
-				return res.json({success: false, message: 'Error getting token, please try again.', code: 't-12'});
+				return res.json({success: false, message: 'Error getting token, please try again.', code: 'single-04'});
 			});
 
 		} else {
-			return res.json({success: false, message: 'An authorization error occurred, please try again.', code: 't-13'});
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'single-05'
+			});
 		}
 	})(req, res);
 });
@@ -190,13 +285,17 @@ router.post('/update/:id', (req, res) => {
 
 		if (err) {
 			logger.error(err, {ip: req.ip});
-			return res.json({success: false, message: 'An error occurred, please try again.', code: 't-14'});
+			return res.json({success: false, message: 'An error occurred, please try again.', code: 'update-01'});
 
 		} else if (user) {
 
 			tokens.doc(req.params.id).get().then(doc => {
 				if (!doc.exists) {
-					return res.json({success: false, message: 'Token not found in database. Operation failed.', code: 't-15'});
+					return res.json({
+						success: false,
+						message: 'Token not found in database. Operation failed.',
+						code: 'update-02'
+					});
 				} else {
 					const token = doc.data();
 					if (token.owner === user) {
@@ -205,7 +304,11 @@ router.post('/update/:id', (req, res) => {
 							return res.json({success: true});
 						}).catch(err => {
 							logger.error(err, {ip: req.ip});
-							return res.json({success: false, message: 'Error updating token, please try again.', code: 't-16'});
+							return res.json({
+								success: false,
+								message: 'Error updating token, please try again.',
+								code: 'update-03'
+							});
 						});
 					} else {
 						logger.warn('Unauthorized operation attempted', {
@@ -214,16 +317,24 @@ router.post('/update/:id', (req, res) => {
 							tokenId: req.params.id,
 							ip: req.ip
 						});
-						return res.json({success: false, message: 'Unauthorized operation.', code: 't-17'});
+						return res.json({success: false, message: 'Unauthorized operation.', code: 'update-04'});
 					}
 				}
 			}).catch(err => {
 				logger.error(err, {ip: req.ip});
-				return res.json({success: false, message: 'Error deleting token, please try again.', code: 't-18'});
+				return res.json({
+					success: false,
+					message: 'Error deleting token, please try again.',
+					code: 'update-05'
+				});
 			});
 
 		} else {
-			return res.json({success: false, message: 'An authorization error occurred, please try again.', code: 't-19'});
+			return res.json({
+				success: false,
+				message: 'An authorization error occurred, please try again.',
+				code: 'update-06'
+			});
 		}
 
 	})(req, res);

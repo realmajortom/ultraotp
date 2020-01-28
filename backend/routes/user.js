@@ -25,6 +25,7 @@ router.post('/register', (req, res) => {
 						username: req.body.username,
 						password: hash,
 						salt: req.body.salt,
+						tokenOrder: [],
 						timestamps: {
 							login: FieldValue.serverTimestamp(),
 							registration: FieldValue.serverTimestamp()
