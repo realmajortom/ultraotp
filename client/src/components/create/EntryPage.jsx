@@ -128,9 +128,9 @@ function EntryPage() {
 
 
 				<div className='homeHeader'>
-					<h1>Add New Token</h1>
+					<h1>New Token</h1>
 					<button className='primaryBtn redirectBtn alertBtn cancelBtn'
-									onClick={() => setRedirect('list')}>Cancel
+							onClick={() => setRedirect('list')} style={{marginTop: '10px'}}>Cancel
 					</button>
 				</div>
 

@@ -87,14 +87,7 @@ function List() {
 		return (
 			<div>
 
-				<div className='anon' style={menuVis ? {
-					position: 'fixed',
-					top: 0,
-					left: 0,
-					width: '100vw',
-					height: '100vh',
-					zIndex: 2
-				} : {display: 'none'}} onClick={() => setMenuVis(false)}>
+				<div className={'anon ' + (menuVis ? 'anonVis' : '')} onClick={() => setMenuVis(false)}>
 
 				</div>
 
@@ -106,16 +99,10 @@ function List() {
 					<h1>Ultra OTP</h1>
 
 					<div className='homeLinksWrapper linkFlexRight'>
-						<button className='gearWrapper' style={{
-							margin: '0 10px 0 0',
-							backgroundColor: 'transparent',
-							border: 'none',
-							cursor: 'pointer'
-						}} onClick={() => setMenuVis(!menuVis)}><Gear/></button>
-						<button className='primaryBtn logoutBtn' onClick={() => logout()}>Log Out</button>
+						<button className='gearWrapper' onClick={() => setMenuVis(!menuVis)}><Gear/></button>
 					</div>
 
-					<SettingsMenu vis={menuVis} close={() => setMenuVis(false)}/>
+					<SettingsMenu vis={menuVis} close={() => setMenuVis(false)} logout={() => logout()}/>
 				</div>
 
 				<ul className='tokenList'>

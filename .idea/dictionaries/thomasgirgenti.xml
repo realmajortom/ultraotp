@@ -5,6 +5,7 @@
       <w>axios</w>
       <w>bcrypt</w>
       <w>homescreen</w>
+      <w>nopadding</w>
     </words>
   </dictionary>
 </component>
