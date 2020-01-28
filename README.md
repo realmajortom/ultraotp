@@ -1,5 +1,6 @@
 # Ultra OTP: Two-Factor Authenticator
-**Conveniently and securely access one-time password tokens from any device.**
+**Conveniently and securely access one-time password tokens from any device.**  
+[View Screenshots](https://github.com/tggir1/ultraotp/blob/master/SCREENSHOTS.md)
 <br/><br/>
 ## Ultra Flexible
 Ultra OTP is capable of generating both HMAC-based (HOTP) and time-based (TOTP) one-time passwords and includes configuration options for advanced users.
