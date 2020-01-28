@@ -3,36 +3,15 @@ import {Redirect} from 'react-router-dom';
 import {isMobile} from 'react-device-detect';
 import {SwipeableList, SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import EditIcon from './EditIcon';
-import LineContainer from './LineContainer';
+import TokenTile from "./TokenTile";
 import decrypt from '../../crypto/decrypt';
 import genOtp from '../../helpers/gen-otp';
 import '../../swipeable.css';
 
 
-function TokenTile(props) {
-	const delay = (props.index * .075);
-
-	return (
-		<div className='Token fade-in' onClick={() => props.copy(props.code)} style={{animationDelay: `${delay}s`}}>
-
-			<div className='tokenInfo'>
-				<p className='tIssuer'>{props.issuer}</p>
-				<p className='tLabel'>{props.name}</p>
-			</div>
-
-			<div className='tokenCode'>
-				<h2>{props.code}</h2>
-				{props.timeRemaining >= 0 && <LineContainer num={props.timeRemaining} den={props.period} />}
-			</div>
-
-		</div>
-	)
-}
-
 function getTimeRemaining(epoch, step) {
 	return step - (Math.floor(epoch / 1000) % step);
 }
-
 
 function Token(props) {
 	const t = props.token;
@@ -43,7 +22,6 @@ function Token(props) {
 	const [secret, setSecret] = useState(null);
 	const [issuer, setIssuer] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
-
 
 	useEffect(() => {
 		const cryptoKey = JSON.parse(localStorage.getItem('cryptoKey'));

@@ -90,7 +90,13 @@ function List() {
 
 				<div className='homeHeader'>
 					<h1>Ultra OTP</h1>
-					<button className='primaryBtn logoutBtn redirectBtn' onClick={() => logout()}>Log Out</button>
+
+					<div className='homeLinksWrapper linkFlexRight'>
+						<button className='primaryBtn cancelBtn btnFlex redirectBtn'
+								onClick={() => setRedirect('/list')}>Cancel
+						</button>
+						<button className='primaryBtn logoutBtn redirectBtn' onClick={() => logout()}>Log Out</button>
+					</div>
 				</div>
 
 				<ul className='tokenList'>
