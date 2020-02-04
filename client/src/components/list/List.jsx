@@ -12,6 +12,8 @@ import SettingsMenu from "../generic/SettingsMenu";
 
 function List() {
 	const [tokens, setTokens] = useState([]);
+	const [forceUpdate, setForceUpdate] = useState(0);
+	const [lastUpdate, setLastUpdate] = useState(0);
 	const [redirect, setRedirect] = useState(null);
 	const [message, setMessage] = useState('');
 	const [toastVis, setToastVis] = useState(false);
@@ -19,11 +21,19 @@ function List() {
 	const [seconds, setSeconds] = useState(0);
 
 
+	document.addEventListener("visibilitychange", function () {
+		let timeDiff = Date.now() - lastUpdate;
+		if (document.visibilityState === 'visible' && timeDiff > 20000) {
+			setForceUpdate(forceUpdate + 1);
+		}
+	});
+
+
 	function getTokens() {
 		axios.get('https://ultraotp.com/api/doc/tokens', {headers: {'Authorization': `JWT ${localStorage.getItem('JWT')}`}}).then(res => {
 			if (res.data.success) {
 				setTokens(res.data.tokens);
-				localStorage.setItem('lastUpdate', Date.now());
+				setLastUpdate(Date.now());
 			} else {
 				setMessage(res.data.message);
 			}
@@ -107,7 +117,8 @@ function List() {
 
 				<ul className='tokenList'>
 					{tokens.map((t, i) =>
-						<li key={t.id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}/></li>)}
+						<li key={t.id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}
+											  forceUpdate={forceUpdate}/></li>)}
 				</ul>
 
 				<EntryBtn/>

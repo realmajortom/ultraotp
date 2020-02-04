@@ -1,6 +1,6 @@
 {
 	"name": "ultraotp-client",
-	"version": "1.1.9",
+	"version": "1.1.91",
 	"private": true,
 	"repository": {
 		"type": "git",

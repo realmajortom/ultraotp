@@ -15,6 +15,7 @@ function getTimeRemaining(epoch, step) {
 
 function Token(props) {
 	const t = props.token;
+	const forceUpdate = props.forceUpdate;
 	const seconds = t.type === 'totp' ? props.seconds : null;
 	const [id, setId] = useState(null);
 	const [name, setName] = useState(null);
@@ -52,16 +53,15 @@ function Token(props) {
 
 
 	useEffect(() => {
-		if (secret && timeRemaining <= 1) {
+		if (secret && (timeRemaining <= 1 || forceUpdate > 0)) {
 			let newCode = genOtp(t, secret);
 
 			if (newCode !== code) {
 				setCode(newCode);
 				setTimeRemaining(t.period);
 			}
-
 		}
-	}, [timeRemaining, t, secret, code]);
+	}, [timeRemaining, t, secret, code, forceUpdate]);
 
 
 	const copy = (code) => {
