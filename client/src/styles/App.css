@@ -58,7 +58,8 @@ h4 {
 	top: 50px;
 	right: 0;
 	background-color: #ffffff;
-	box-shadow: rgba(0, 0, 0, 0.11) 0 14px 20px 0;
+	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.11) 0 14px 20px 0;
+	/*box-shadow: rgba(0, 0, 0, 0.11) 0 14px 20px 0;*/
 	padding: 0;
 	border-radius: 6px;
 	transition: opacity 200ms ease;
@@ -88,7 +89,7 @@ h4 {
 	background-color: rgba(0, 0, 0, 0.05);
 }
 
-.menuLink {
+.menuLink, .menuBtn {
 	text-decoration: none;
 	color: #000000;
 	font-weight: 700;
@@ -97,13 +98,9 @@ h4 {
 }
 
 .menuBtn {
-	color: #000000;
-	font-weight: 700;
-	font-size: 16px;
 	width: 100%;
 	background-color: transparent;
 	border: none;
-	padding: 10px 20px;
 	cursor: pointer;
 }
 
@@ -117,21 +114,23 @@ h4 {
 	cursor: pointer;
 }
 
+.gearWrapper:focus, .gearWrapper:active {
+	outline: none;
+
+}
+
 .anon {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: transparent;
 	z-index: -1000;
-	opacity: 0;
-	transition: opacity 200ms ease;
 }
 
 .anonVis {
 	z-index: 2;
-	opacity: 1;
 }
 
 /**************** Home ****************/
