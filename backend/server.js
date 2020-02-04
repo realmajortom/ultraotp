@@ -29,9 +29,6 @@ app.use((req, res, next) => {
 });
 
 
-app.use(express.static(path.join(__dirname, 'build')));
-
-
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
@@ -60,6 +57,11 @@ const homeLimiter = rateLimit({
 		logger.warn('Home limiter reached.', {ip: req.ip, limiter: 'home'});
 	}
 });
+
+
+app.use('/nocache', express.static(path.join(__dirname, 'nocache')));
+app.use(express.static(path.join(__dirname, 'build')));
+
 
 app.use('/api/user', userLimiter);
 app.use('/api/doc', docLimiter);
