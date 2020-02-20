@@ -12,9 +12,9 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#121212",
-  "background_color": "#121212"
+	],
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#121212",
+	"background_color": "#121212"
 }

@@ -58,8 +58,7 @@ h4 {
 	top: 50px;
 	right: 0;
 	background-color: #ffffff;
-	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.11) 0 14px 20px 0;
-	/*box-shadow: rgba(0, 0, 0, 0.11) 0 14px 20px 0;*/
+	box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
 	padding: 0;
 	border-radius: 6px;
 	transition: opacity 200ms ease;
@@ -71,30 +70,26 @@ h4 {
 }
 
 .menuItem {
-	padding: 10px 0;
+	padding: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	border-collapse: collapse;
+	transition: all 200ms ease;
 }
 
 .menuItem:first-of-type {
 	border-top-right-radius: 6px;
 	border-top-left-radius: 6px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .menuItem:last-of-type {
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
+	border-bottom: none;
 }
 
 .menuItem:hover, .menuItem:focus, .menuItem:active {
 	background-color: rgba(0, 0, 0, 0.05);
-}
-
-.menuLink, .menuBtn {
-	text-decoration: none;
-	color: #000000;
-	font-weight: 700;
-	font-size: 16px;
-	padding: 10px 20px;
+	border-bottom-color: transparent;
 }
 
 .menuBtn {
@@ -102,10 +97,11 @@ h4 {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-}
-
-.nopadding {
-	padding: 0;
+	text-decoration: none;
+	padding: 10px 20px;
+	font-size: 1rem;
+	font-weight: 700;
+	color: rgb(80,80,80);
 }
 
 .gearWrapper {
@@ -324,10 +320,6 @@ footer {
 .logoutBtn {
 	color: rgb(218, 44, 56);
 }
-
-/*.redirectBtn {*/
-/*	margin-top: 10px;*/
-/*}*/
 
 .alertBtn {
 	padding: 10px 30px;
@@ -812,6 +804,10 @@ small {
 		color: #e0e0e0;
 	}
 
+	.menuBtn {
+		color: #e0e0e0;
+	}
+
 	.logoutBtn {
 		color: #ff9db1;
 	}
@@ -857,4 +853,11 @@ small {
 		fill: #ffffff;
 	}
 
+	.SettingsMenu {
+		background-color: #3c4043;
+	}
+
+	.menuItem:hover, .menuItem:focus, .menuItem:active {
+		background-color: #5e6469;
+	}
 }

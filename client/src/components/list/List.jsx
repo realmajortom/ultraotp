@@ -97,13 +97,12 @@ function List() {
 		return (
 			<div>
 
-				<div className={'anon ' + (menuVis ? 'anonVis' : '')} onClick={() => setMenuVis(false)}>
-
-				</div>
-
+				<div className={'anon ' + (menuVis ? 'anonVis' : '')} onClick={() => setMenuVis(false)}></div>
 				<Alert close={() => setMessage('')} message={message}/>
 
+
 				<Toast message='Copied!' vis={toastVis}/>
+
 
 				<div className='homeHeader'>
 					<h1>Ultra OTP</h1>
@@ -115,13 +114,16 @@ function List() {
 					<SettingsMenu vis={menuVis} close={() => setMenuVis(false)} logout={() => logout()}/>
 				</div>
 
+
 				<ul className='tokenList'>
 					{tokens.map((t, i) =>
 						<li key={t.id}><Token token={t} seconds={seconds} complete={() => setToastVis(true)} index={i}
 											  forceUpdate={forceUpdate}/></li>)}
 				</ul>
 
+
 				<EntryBtn/>
+
 			</div>
 		);
 
